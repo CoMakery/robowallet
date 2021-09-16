@@ -1,4 +1,4 @@
-# Hotwallet
+# Robowallet
 
 ## Deploy to Heroku
 
@@ -8,8 +8,8 @@ You need to prepare `PROJECT_API_KEY` before deploy. It can be generated in the 
 
 ### One-click Deploy
 
-Open project's transfers page as an admin. You will see "Deploy a hot wallet" link if it not deployed yet.
-In this way it fill all necessary fields except of `PROJECT_API_KEY`, so fill this field manually.
+Open project's transfers page as an admin. You will see "Deploy a robo wallet" link if it not deployed yet.
+In this way it fill all nefcessary fields except of `PROJECT_API_KEY`, so fill this field manually.
 
 ##### Important note:
 
@@ -20,20 +20,20 @@ It should be filled with basic ERC20 contract address which the LockupToken cont
 
 As an alternative you can click the link bellow and fill all ENVs manully but you must know what to do.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CoMakery/comakery-server/tree/hotwallet)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CoMakery/robowallet)
 
-### Preparing of the Hot Wallet
+### Preparing of the Robo Wallet
 
-After successful deploy you can see the Hot Wallet address on the Project's transfers page.
+After successful deploy you can see the Robo Wallet address on the Project's transfers page.
 Now we must configure this wallet to be able to sign and transfer transactions.
 
 #### Top up ETHs
 
-First of all the How Wallet must have enough ETHs to pay a fee for each transaction, so you should top up the Hot Wallet address.
+First of all the Robo Wallet must have enough ETHs to pay a fee for each transaction, so you should top up the Robo Wallet address.
 
 #### Top up tokens
 
-To send tokens the How Wallet must have enough token balance, so top up the Hot Wallet address with tokens.
+To send tokens the Robo Wallet must have enough token balance, so top up the Robo Wallet address with tokens.
 
 ### Setup development enviroment:
 ```shell
@@ -45,9 +45,9 @@ Change ENV variables to actual in `.env` file.
 
 ### Manage process:
 ```shell
-bin/start   # Start hotwallet
-bin/stop    # Stop hotwallet
-bin/restart # Restart hotwallet
+bin/start   # Start Robowallet
+bin/stop    # Stop Robowallet
+bin/restart # Restart Robowallet
 bin/list    # List processes
 bin/logs    # Show logs
 ```
