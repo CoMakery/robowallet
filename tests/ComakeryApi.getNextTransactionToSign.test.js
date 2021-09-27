@@ -26,7 +26,7 @@ describe("Get next transaction to sign in", () => {
 
   test("API returns a blockchain transaction", async () => {
     expect.assertions(1);
-    axios.post.mockImplementation(() => Promise.resolve({ status: 201, data: blockchainTransaction }))
+    axios.post.mockImplementation(() => Promise.resolve({ status: 201, data: blockchainTransaction, headers: {} }))
     res = await hwApi.getNextTransactionToSign(wallet.address)
 
     expect(res).toEqual(blockchainTransaction)
@@ -45,6 +45,14 @@ describe("Get next transaction to sign in", () => {
     res = await hwApi.getNextTransactionToSign(wallet.address)
 
     expect(res).toEqual({})
+  })
+
+  test("API returns a wallet disable header", async () => {
+    expect.assertions(1);
+    axios.post.mockImplementation(() => Promise.resolve({ status: 200, data: {}, headers: {'robowallet-disable': '{"disable": "params"}'} }))
+    res = await hwApi.getNextTransactionToSign(wallet.address)
+
+    expect(res).toEqual({ disableWalletWith: { disable: "params" } })
   })
 });
 
