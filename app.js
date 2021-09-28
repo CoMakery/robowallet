@@ -20,12 +20,17 @@ const envs = {
   ethereumApprovalContractAddress: process.env.ETHEREUM_APPROVAL_CONTRACT_ADDRESS
 }
 
-const redisClient = redis.createClient({
-  url: envs.redisUrl,
-  tls: {
+const redisClientOptions = {
+  url: envs.redisUrl
+}
+
+if (envs.redisUrl.includes("rediss://")) {
+  redisClientOptions.tls = {
     rejectUnauthorized: false
   }
-})
+}
+
+const redisClient = redis.createClient(redisClientOptions)
 
 async function initialize() {
   if (!hwUtils.checkAllVariablesAreSet(envs)) {
