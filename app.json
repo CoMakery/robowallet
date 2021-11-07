@@ -92,6 +92,11 @@
       "required": true,
       "value": "200"
     },
+    "ETHEREUM_MAX_PRIORITY_FEE_PER_GAS": {
+      "description": "Ethereum transaction maxPriorityFeePerGas",
+      "required": true,
+      "value": "4"
+    },
     "OPT_IN_APP": {
       "description": "Algorand app to auto opt-in. Required to use with algorand blockchain.",
       "required": false
