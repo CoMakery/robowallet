@@ -54,7 +54,7 @@ The standard defines following rules for transaction fees:
 2) MaxFeePerGas >= (baseFeePerGas + maxPriorityFeePerGas)
 ```
 
-`TxFee` - total amount in gwei to be paid as transaction fee (calculated by network)
+`TxFee` - total amount in gwei to be paid as transaction fee (calculated by network via `baseFeePerGas`)
 
 `baseFeePerGas` – amount in gwei to be burnt after tx is included in a block (calculated by network, rotates with every block)
 
