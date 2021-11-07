@@ -43,6 +43,26 @@ cp .env.example .env
 
 Change ENV variables to actual in `.env` file.
 
+
+### EIP-1559 Transaction fees estimation
+
+The standard defines following rules for transaction fees:
+
+```
+1) TxFee = (baseFeePerGas + maxPriorityFeePerGas) * gasAmount
+
+2) MaxFeePerGas >= (baseFeePerGas + maxPriorityFeePerGas)
+```
+
+`TxFee` - total amount in gwei to be paid as transaction fee
+
+`baseFeePerGas` – amount in gwei which will be burned after tx is included in a block (rotates with every block)
+
+`maxPriorityFeePerGas` – amount in gwei to be trasnfered to a miner (set as env variable)
+
+`MaxFeePerGas` – max amount in gwei per gas to be paid as transaction fee (set as env variable)
+
+
 ### Manage process:
 ```shell
 bin/start   # Start Robowallet
