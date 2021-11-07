@@ -54,13 +54,13 @@ The standard defines following rules for transaction fees:
 2) MaxFeePerGas >= (baseFeePerGas + maxPriorityFeePerGas)
 ```
 
-`TxFee` - total amount in gwei to be paid as transaction fee
+`TxFee` - total amount in gwei to be paid as transaction fee (calculated by network)
 
-`baseFeePerGas` – amount in gwei which will be burnt after tx is included in a block (rotates with every block)
+`baseFeePerGas` – amount in gwei to be burnt after tx is included in a block (calculated by network, rotates with every block)
 
-`maxPriorityFeePerGas` – amount in gwei to be trasnfered to a miner (set as env variable)
+`maxPriorityFeePerGas` – amount in gwei to be trasnfered to a miner (controlled with env variable)
 
-`MaxFeePerGas` – max amount in gwei per gas to be paid as transaction fee (set as env variable)
+`MaxFeePerGas` – max amount in gwei per gas to be paid as transaction fee (controlled with env variable)
 
 
 ### Manage process:
