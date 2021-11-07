@@ -56,7 +56,7 @@ The standard defines following rules for transaction fees:
 
 `TxFee` - total amount in gwei to be paid as transaction fee (calculated by network via `baseFeePerGas`)
 
-`baseFeePerGas` – amount in gwei to be burnt after tx is included in a block (calculated by network, rotates with every block)
+`baseFeePerGas` – amount in gwei to be burnt when tx is included in a block (calculated by network for every block)
 
 `maxPriorityFeePerGas` – amount in gwei to be trasnfered to a miner (controlled with env variable)
 
