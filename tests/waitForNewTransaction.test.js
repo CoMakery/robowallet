@@ -43,7 +43,7 @@ describe("For Ethereum blockchain", () => {
 
     const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
 
-    expect(res).toEqual({"blockchainTransaction": {}, "status": "failed_before_getting_tx", "transaction": {}})
+    expect(res).toEqual({"blockchainTransaction": {}, "status": "validation_failed", "transaction": {}})
   })
 
   test("API returns empty response", async () => {
