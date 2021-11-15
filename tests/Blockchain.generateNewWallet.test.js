@@ -15,7 +15,6 @@ describe("Blockchain generate new wallet test suite", () => {
     expect(keys.publicKey).toBeDefined()
     expect(keys.privateKey).toBeDefined()
     expect(keys.privateKeyEncrypted).toBeDefined()
-    expect(keys.privateKeyEncrypted).toBeDefined()
   })
 
   test('return correct generated keys for ethereum ', async () => {
@@ -32,6 +31,21 @@ describe("Blockchain generate new wallet test suite", () => {
     expect(keys.publicKey).toBeDefined()
     expect(keys.privateKey).toBeDefined()
     expect(keys.privateKeyEncrypted).toBeDefined()
-    expect(keys.privateKeyEncrypted).toBeDefined()
   })
-});
+})
+
+test('return correct generated keys for solana ', async () => {
+  const solanaBlockchain = new hwUtils.Blockchain({
+    figmentApiKey: 'figment_api',
+    blockchainNetwork: 'solana_devnet'
+  })
+
+  const keys = await solanaBlockchain.generateNewWallet()
+  expect(keys).toBeInstanceOf(hwUtils.HotWallet)
+  expect(Object.keys(keys)).toEqual(["klass", "address", "publicKey", "privateKey", "privateKeyEncrypted"])
+  expect(keys.address).toBeDefined()
+  expect(keys.address.length).toBeGreaterThanOrEqual(43)
+  expect(keys.publicKey).toBeDefined()
+  expect(keys.privateKey).toBeDefined()
+})
+
