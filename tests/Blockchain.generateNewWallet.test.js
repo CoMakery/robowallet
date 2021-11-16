@@ -34,7 +34,7 @@ describe("Blockchain generate new wallet test suite", () => {
   })
 })
 
-test.only('return correct generated keys for solana ', async () => {
+test('return correct generated keys for solana ', async () => {
   const solanaBlockchain = new hwUtils.Blockchain({
     figmentApiKey: 'figment_api',
     blockchainNetwork: 'solana_devnet'
