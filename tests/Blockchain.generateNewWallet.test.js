@@ -10,11 +10,11 @@ describe("Blockchain generate new wallet test suite", () => {
     const keys = await algoBlockchain.generateNewWallet()
     expect(keys).toBeInstanceOf(hwUtils.HotWallet)
     expect(Object.keys(keys)).toEqual(["klass", "address", "publicKey", "privateKey", "privateKeyEncrypted"])
-    expect(keys.address).toBeDefined()
+    expect(typeof keys.address).toBe("string")
     expect(keys.address.length).toBe(58)
-    expect(keys.publicKey).toBeDefined()
-    expect(keys.privateKey).toBeDefined()
-    expect(keys.privateKeyEncrypted).toBeDefined()
+    expect(typeof keys.publicKey).toBe("string")
+    expect(typeof keys.privateKey).toBe("string")
+    expect(typeof keys.privateKeyEncrypted).toBe("string")
   })
 
   test('return correct generated keys for ethereum ', async () => {
@@ -26,15 +26,15 @@ describe("Blockchain generate new wallet test suite", () => {
     const keys = await ethBlockchain.generateNewWallet()
     expect(keys).toBeInstanceOf(hwUtils.HotWallet)
     expect(Object.keys(keys)).toEqual(["klass", "address", "publicKey", "privateKey", "privateKeyEncrypted"])
-    expect(keys.address).toBeDefined()
+    expect(typeof keys.address).toBe("string")
     expect(keys.address.length).toBe(42)
-    expect(keys.publicKey).toBeDefined()
-    expect(keys.privateKey).toBeDefined()
-    expect(keys.privateKeyEncrypted).toBeDefined()
+    expect(typeof keys.publicKey).toBe("string")
+    expect(typeof keys.privateKey).toBe("string")
+    expect(typeof keys.privateKeyEncrypted).toBe("string")
   })
 })
 
-test('return correct generated keys for solana ', async () => {
+test.only('return correct generated keys for solana ', async () => {
   const solanaBlockchain = new hwUtils.Blockchain({
     figmentApiKey: 'figment_api',
     blockchainNetwork: 'solana_devnet'
@@ -43,9 +43,12 @@ test('return correct generated keys for solana ', async () => {
   const keys = await solanaBlockchain.generateNewWallet()
   expect(keys).toBeInstanceOf(hwUtils.HotWallet)
   expect(Object.keys(keys)).toEqual(["klass", "address", "publicKey", "privateKey", "privateKeyEncrypted"])
-  expect(keys.address).toBeDefined()
-  expect(keys.address.length).toBeGreaterThanOrEqual(43)
-  expect(keys.publicKey).toBeDefined()
-  expect(keys.privateKey).toBeDefined()
+  expect(typeof keys.address).toBe("string")
+  expect(keys.address.length).toBe(44)
+  expect(typeof keys.publicKey).toBe("string")
+  expect(typeof keys.privateKey).toBe("string")
+  expect(keys.privateKey.length).toBe(128)
+  expect(typeof keys.privateKeyEncrypted).toBe("string")
+  expect(keys.privateKeyEncrypted.length).toBe(0)
 })
 
