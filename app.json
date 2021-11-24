@@ -100,6 +100,10 @@
     "OPT_IN_APP": {
       "description": "Algorand app to auto opt-in. Required to use with algorand blockchain.",
       "required": false
+    },
+    "SOLANA_TOKEN_ADDRESS": {
+      "description": "Solana token address. Required to transfer Solana tokens (SPL, other smart contracts)",
+      "required": false
     }
   }
 }
