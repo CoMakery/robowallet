@@ -20,8 +20,7 @@ const envs = {
   ethereumContractAddress: process.env.ETHEREUM_CONTRACT_ADDRESS,
   ethereumApprovalContractAddress: process.env.ETHEREUM_APPROVAL_CONTRACT_ADDRESS,
   ethereumMaxFeePerGas: process.env.ETHEREUM_MAX_FEE_PER_GAS,
-  ethereumMaxPriorityFeePerGas: process.env.ETHEREUM_MAX_PRIORITY_FEE_PER_GAS,
-  solanaTokenAddress: process.env.SOLANA_TOKEN_ADDRESS,
+  ethereumMaxPriorityFeePerGas: process.env.ETHEREUM_MAX_PRIORITY_FEE_PER_GAS
 }
 
 const redisClientOptions = {
