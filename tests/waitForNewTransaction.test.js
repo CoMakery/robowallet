@@ -39,7 +39,6 @@ describe("For Ethereum blockchain", () => {
   test("with zero token balance", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "positiveTokenBalance").mockReturnValueOnce(false)
 
     const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
 
@@ -49,7 +48,6 @@ describe("For Ethereum blockchain", () => {
   test("API returns empty response", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "positiveTokenBalance").mockReturnValueOnce(true)
     jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({ status: 204, data: null });
 
     const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
@@ -60,7 +58,6 @@ describe("For Ethereum blockchain", () => {
   test("API returns a blockchain transaction", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "positiveTokenBalance").mockReturnValueOnce(true)
     jest.spyOn(hwUtils.Blockchain.prototype, "isTransactionValid").mockReturnValueOnce({ valid: true })
     jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({ txHash: "TXHASH" })
     jest.spyOn(hwUtils.Blockchain.prototype, "sendTransaction").mockReturnValueOnce({ transactionId: "TXHASH" })
@@ -74,7 +71,6 @@ describe("For Ethereum blockchain", () => {
   test("with validation error", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "positiveTokenBalance").mockReturnValueOnce(true)
     jest.spyOn(hwUtils.Blockchain.prototype, "isTransactionValid").mockReturnValueOnce({ valid: false, error: "Some error" })
     jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({})
 
@@ -85,7 +81,6 @@ describe("For Ethereum blockchain", () => {
   test("transaction sending was failed", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "positiveTokenBalance").mockReturnValueOnce(true)
     jest.spyOn(hwUtils.Blockchain.prototype, "isTransactionValid").mockReturnValueOnce({ valid: true })
     jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({ txHash: "TXHASH" })
     jest.spyOn(hwUtils.Blockchain.prototype, "sendTransaction").mockReturnValueOnce({ valid: false, markAs: "failed", error: "some error" })
@@ -101,7 +96,6 @@ describe("For Ethereum blockchain", () => {
   test("validation mark the transaction as failed", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "positiveTokenBalance").mockReturnValueOnce(true)
     const transaction = { txHash: "TXHASH" }
     jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce(transaction);
     jest.spyOn(hwUtils.ComakeryApi.prototype, "cancelTransaction").mockReturnValueOnce({ status: 200, data: transaction })
@@ -115,7 +109,6 @@ describe("For Ethereum blockchain", () => {
   test("validation mark the transaction as cancelled", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "positiveTokenBalance").mockReturnValueOnce(true)
     const transaction = { txHash: "TXHASH" }
     jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce(transaction);
     jest.spyOn(hwUtils.ComakeryApi.prototype, "cancelTransaction").mockReturnValueOnce({ status: 200, data: transaction })
