@@ -36,15 +36,6 @@ describe("For Ethereum blockchain", () => {
     expect(res).toEqual({"blockchainTransaction": {}, "status": "failed_before_getting_tx", "transaction": {}})
   })
 
-  test("with zero token balance", async () => {
-    jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
-    jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-
-    const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
-
-    expect(res).toEqual({"blockchainTransaction": {}, "status": "validation_failed", "transaction": {}})
-  })
-
   test("API returns empty response", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
@@ -72,10 +63,10 @@ describe("For Ethereum blockchain", () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
     jest.spyOn(hwUtils.Blockchain.prototype, "isTransactionValid").mockReturnValueOnce({ valid: false, error: "Some error" })
-    jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({})
+    jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({ id: 123})
 
     const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
-    expect(res).toEqual({"blockchainTransaction": {}, "status": "validation_failed", "transaction": {}})
+    expect(res).toEqual({"blockchainTransaction": {"id": 123}, "status": "validation_failed", "transaction": {}})
   })
 
   test("transaction sending was failed", async () => {
