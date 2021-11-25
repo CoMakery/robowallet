@@ -16,7 +16,6 @@ describe("SolanaBlockchain.isTransactionValid", () => {
       jest.spyOn(solanaBlockchain, "getTokenBalance").mockReturnValueOnce({ balance: new BigNumber("0.00000001"), balanceInBaseUnit: new BigNumber("10") })
 
       const validResults = await solanaBlockchain.isTransactionValid(SplblockchainTransaction, hwAddress)
-      console.log(validResults);
       expect(validResults.valid).toBe(true)
       expect(validResults.markAs).toBe(undefined)
       expect(validResults.error).toBe(undefined)
@@ -58,11 +57,11 @@ describe("SolanaBlockchain.isTransactionValid", () => {
   describe("for SOL transfer", () => {
     const SolBlockchainTransaction = require('./fixtures/solanaSolBlockchainTransaction').blockchainTransaction
 
-    test.only('for valid blockchainTransaction', async () => {
-      jest.spyOn(solanaBlockchain, "getTokenBalance").mockReturnValueOnce({ balance: new BigNumber("0.00000001"), balanceInBaseUnit: new BigNumber("10") })
+    test('for valid blockchainTransaction', async () => {
+      jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.00000001"), lamports: new BigNumber("10") })
 
       const validResults = await solanaBlockchain.isTransactionValid(SolBlockchainTransaction, hwAddress)
-      console.log(validResults);
+
       expect(validResults.valid).toBe(true)
       expect(validResults.markAs).toBe(undefined)
       expect(validResults.error).toBe(undefined)
