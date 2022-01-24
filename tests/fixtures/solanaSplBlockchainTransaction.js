@@ -1,3 +1,5 @@
+const { default: BigNumber } = require("bignumber.js")
+
 const txRaw = {
   "type": "Blockchain::Solana::Tx::Spl::Transfer",
   "from": "CQSE22PAUYdorqCLqAguCkjAvhSnCB2zXyNPTinWNG58",
@@ -6,6 +8,40 @@ const txRaw = {
   "tokenMintAddress": "91enn7UUM3rXqqMAmYgYRNuVQBRgTumTvV7kMCVyz5g"
 }
 
+const txBatchRaw = {
+  "type": "Blockchain::Solana::Tx::Spl::BatchTransfer",
+  "from": "CQSE22PAUYdorqCLqAguCkjAvhSnCB2zXyNPTinWNG58",
+  "to": [
+    "7mcPNUWybcizxEid8ntjwPrGgD5PdjXHdhPPHcUcBR6i",
+    "7mcPNUWybcizxEid8ntjwPrGgD5PdjXHdhPPHcUcBR6i",
+    "7mcPNUWybcizxEid8ntjwPrGgD5PdjXHdhPPHcUcBR6i"
+  ],
+  "amount": [
+    new BigNumber('100000000123456789'),
+    10000,
+    200000
+  ],
+  "tokenMintAddress": "91enn7UUM3rXqqMAmYgYRNuVQBRgTumTvV7kMCVyz5g"
+}
+
+const blockchainTransactablesBatch = [
+  {
+    id: null,
+    blockchainTransactableType: 'Award',
+    blockchainTransactableId: 110
+  },
+  {
+    id: null,
+    blockchainTransactableType: 'Award',
+    blockchainTransactableId: 111
+  },
+  {
+    id: null,
+    blockchainTransactableType: 'Award',
+    blockchainTransactableId: 112
+  },
+]
+
 const blockchainTransaction = {
   id: 2794,
   award_id: null,
@@ -13,7 +49,7 @@ const blockchainTransaction = {
   source: "CQSE22PAUYdorqCLqAguCkjAvhSnCB2zXyNPTinWNG58",
   destination: "7mcPNUWybcizxEid8ntjwPrGgD5PdjXHdhPPHcUcBR6i",
   nonce: null,
-  contract_address: "91enn7UUM3rXqqMAmYgYRNuVQBRgTumTvV7kMCVyz5g",
+  contractAddress: "91enn7UUM3rXqqMAmYgYRNuVQBRgTumTvV7kMCVyz5g",
   network: "solana_devnet",
   txHash: null,
   txRaw: JSON.stringify(txRaw),
@@ -31,4 +67,4 @@ const blockchainTransaction = {
   ]
 }
 
-module.exports = { blockchainTransaction }
+module.exports = { blockchainTransaction, txRaw, txBatchRaw, blockchainTransactablesBatch}

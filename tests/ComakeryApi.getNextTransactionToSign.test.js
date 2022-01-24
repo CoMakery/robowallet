@@ -1,5 +1,6 @@
 const axios = require("axios")
 const redis = require("redis")
+const BigNumber = require('bignumber.js')
 const hwUtils = require("../lib/hotwalletUtils")
 const envs = {
   projectId: "1",
@@ -18,7 +19,7 @@ describe("Get next transaction to sign in", () => {
 
   test("API returns empty response", async () => {
     expect.assertions(1);
-    axios.post.mockImplementation(() => Promise.resolve({ status: 204, data: null }))
+    axios.mockImplementation(() => Promise.resolve({ status: 204, data: null }))
     res = await hwApi.getNextTransactionToSign(wallet.address)
 
     expect(res).toEqual({})
@@ -26,9 +27,8 @@ describe("Get next transaction to sign in", () => {
 
   test("API returns a blockchain transaction", async () => {
     expect.assertions(1);
-    axios.post.mockImplementation(() => Promise.resolve({ status: 201, data: blockchainTransaction, headers: {} }))
+    axios.mockImplementation(() => Promise.resolve({ status: 201, data: JSON.stringify(blockchainTransaction), headers: {} }))
     res = await hwApi.getNextTransactionToSign(wallet.address)
-
     expect(res).toEqual(blockchainTransaction)
   })
 
@@ -41,7 +41,7 @@ describe("Get next transaction to sign in", () => {
       }
     }
 
-    axios.post.mockReturnValue(Promise.reject(data));
+    axios.mockReturnValue(Promise.reject(data));
     res = await hwApi.getNextTransactionToSign(wallet.address)
 
     expect(res).toEqual({})
@@ -49,7 +49,7 @@ describe("Get next transaction to sign in", () => {
 
   test("API returns a wallet disable header", async () => {
     expect.assertions(1);
-    axios.post.mockImplementation(() => Promise.resolve({ status: 200, data: {}, headers: {'robowallet-disable': '{"disable": "params"}'} }))
+    axios.mockImplementation(() => Promise.resolve({ status: 200, data: {}, headers: {'robowallet-disable': '{"disable": "params"}'} }))
     res = await hwApi.getNextTransactionToSign(wallet.address)
 
     expect(res).toEqual({ disableWalletWith: { disable: "params" } })
