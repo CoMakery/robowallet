@@ -9,6 +9,22 @@ describe("SolanaBlockchain.isTransactionValid", () => {
     blockchainNetwork: 'solana_devnet',
   })
 
+  describe("for common problems", () => {
+    test('for unknown transaction type', async () => {
+      const unknowTxType = "Blockchain::Solana::Tx::AnyUnknownText"
+      const transcation = { 
+        txRaw: JSON.stringify({
+          type: unknowTxType
+        })
+      }
+      const validResults = await solanaBlockchain.isTransactionValid(transcation, hwAddress)
+      expect(validResults.valid).toBe(false)
+      expect(validResults.markAs).toBe("cancelled")
+      expect(validResults.error).toEqual(`The Robo Wallet doesn't support transaction type: ${unknowTxType}`)
+      expect(validResults.switchHWToManualMode).toBe(true)
+    })
+  })
+
   describe("for SPL token transfer", () => {
     const SplblockchainTransaction = require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction
     const SplTxRaw = require('./fixtures/solanaSplBlockchainTransaction').txRaw
