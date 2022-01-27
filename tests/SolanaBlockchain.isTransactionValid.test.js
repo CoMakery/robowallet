@@ -1,6 +1,7 @@
 
 const SolanaBlockchain = require('../lib/blockchains/SolanaBlockchain').SolanaBlockchain
 const BigNumber = require('bignumber.js')
+const Web3 = require('@solana/web3.js')
 
 describe("SolanaBlockchain.isTransactionValid", () => {
   const hwAddress = 'CQSE22PAUYdorqCLqAguCkjAvhSnCB2zXyNPTinWNG58'
@@ -8,11 +9,16 @@ describe("SolanaBlockchain.isTransactionValid", () => {
     figmentApiKey: "figmeent_project_id",
     blockchainNetwork: 'solana_devnet',
   })
+  let getRecentBlockhashSpy = jest.spyOn(Web3.Connection.prototype, "getRecentBlockhash")
+
+  beforeEach(async () => {
+    getRecentBlockhashSpy.mockReturnValueOnce({ feeCalculator: { lamportsPerSignature: 5000 } })
+  })
 
   describe("for common problems", () => {
     test('for unknown transaction type', async () => {
       const unknowTxType = "Blockchain::Solana::Tx::AnyUnknownText"
-      const transcation = { 
+      const transcation = {
         txRaw: JSON.stringify({
           type: unknowTxType
         })
@@ -93,7 +99,7 @@ describe("SolanaBlockchain.isTransactionValid", () => {
     const SolBlockchainTransaction = require('./fixtures/solanaSolBlockchainTransaction').blockchainTransaction
 
     test('for valid blockchainTransaction', async () => {
-      jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.00000001"), lamports: new BigNumber("10") })
+      jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.00001"), lamports: new BigNumber("10000") })
 
       const validResults = await solanaBlockchain.isTransactionValid(SolBlockchainTransaction, hwAddress)
 
@@ -115,7 +121,7 @@ describe("SolanaBlockchain.isTransactionValid", () => {
     })
 
     test('for not enough tokens', async () => {
-      jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.000000004"), lamports: new BigNumber("4") })
+      jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.000005000"), lamports: new BigNumber("5000") })
 
       const validResults = await solanaBlockchain.isTransactionValid(SolBlockchainTransaction, hwAddress)
       expect(validResults.valid).toBe(false)
