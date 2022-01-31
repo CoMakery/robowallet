@@ -1,4 +1,3 @@
-
 const SolanaBlockchain = require('../lib/blockchains/SolanaBlockchain').SolanaBlockchain
 const BigNumber = require('bignumber.js')
 const Web3 = require('@solana/web3.js')
@@ -17,16 +16,29 @@ describe("SolanaBlockchain.isTransactionValid", () => {
 
   describe("for common problems", () => {
     test('for unknown transaction type', async () => {
+      const SplblockchainTransactablesBatch = require('./fixtures/solanaSplBlockchainTransaction').blockchainTransactablesBatch
       const unknowTxType = "Blockchain::Solana::Tx::AnyUnknownText"
       const transcation = {
         txRaw: JSON.stringify({
           type: unknowTxType
-        })
+        }), 
+        blockchainTransactables: SplblockchainTransactablesBatch
       }
       const validResults = await solanaBlockchain.isTransactionValid(transcation, hwAddress)
       expect(validResults.valid).toBe(false)
       expect(validResults.markAs).toBe("cancelled")
       expect(validResults.error).toEqual(`The Robo Wallet doesn't support transaction type: ${unknowTxType}`)
+      expect(validResults.switchHWToManualMode).toBe(true)
+    })
+
+    test('for empty transactable', async () => {
+      const blockchainTransaction = {... require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction }
+      blockchainTransaction.blockchainTransactables = []  
+
+      const validResults = await solanaBlockchain.isTransactionValid(blockchainTransaction, hwAddress)
+      expect(validResults.valid).toBe(false)
+      expect(validResults.markAs).toBe("cancelled")
+      expect(validResults.error).toEqual("Empty transactables")
       expect(validResults.switchHWToManualMode).toBe(true)
     })
   })
