@@ -50,6 +50,25 @@ describe("For Ethereum blockchain", () => {
     expect(disableHotWalletSpy).toHaveBeenCalledTimes(0)
   })
 
+  test("repeat while error on updateTransactionHash", async () => {
+    jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
+    jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
+    jest.spyOn(hwUtils.Blockchain.prototype, "isTransactionValid").mockReturnValueOnce({ valid: true })
+    jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({ txHash: "TXHASH" })
+    jest.spyOn(hwUtils.Blockchain.prototype, "sendTransaction").mockReturnValueOnce({ transactionId: "TXHASH" })
+    const sleepSpy = jest.spyOn(hwUtils.ComakeryApi.prototype, "sleep").mockReturnValueOnce({})
+    const axiosPutSpy = jest.spyOn(axios, 'put')
+    axiosPutSpy.mockReturnValueOnce(Promise.resolve({ status: 404, data: {} }))
+    axiosPutSpy.mockReturnValueOnce(Promise.resolve({ status: 200, data: {txHash: "TXHASH"} }))
+
+    const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
+    await new Promise((r) => setTimeout(r, 100));
+
+    expect(res).toEqual({ "blockchainTransaction": { "txHash": "TXHASH" }, "status": "successfull", "transaction": { "transactionId": "TXHASH" } })
+    expect(axiosPutSpy).toHaveBeenCalledTimes(2)
+    expect(sleepSpy).toHaveBeenCalledTimes(1)
+  })
+
   test("success, API returns a blockchain transaction", async () => {
     jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
     jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
@@ -166,21 +185,6 @@ describe("For Ethereum blockchain", () => {
     expect(res).toEqual({ "blockchainTransaction": { "txHash": "TXHASH" }, "status": "validation_failed", "transaction": {} })
     expect(cancelTransactionSpy).toHaveBeenCalledTimes(1)
     expect(updateTransactionHashSpy).toHaveBeenCalledTimes(0)
-  })
-
-  test("error on updateTransactionHash", async () => {
-    jest.spyOn(hwUtils.Blockchain.prototype, "enoughCoinBalanceToSendTransaction").mockReturnValueOnce(true)
-    jest.spyOn(wallet, "isReadyToSendTx").mockReturnValueOnce(true)
-    jest.spyOn(hwUtils.Blockchain.prototype, "isTransactionValid").mockReturnValueOnce({ valid: true })
-    jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({ txHash: "TXHASH" })
-    jest.spyOn(hwUtils.Blockchain.prototype, "sendTransaction").mockReturnValueOnce({ transactionId: "TXHASH" })
-    const updateTransactionHashSpy = jest.spyOn(hwUtils.ComakeryApi.prototype, "updateTransactionHash").mockReturnValueOnce({})
-    axios.put.mockImplementation(() => Promise.resolve({ status: 200, data: { id: 99, network: "ethereum_ropsten", txHash: "TXHASH" } }))
-
-    const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
-
-    expect(res).toEqual({ "blockchainTransaction": { "txHash": "TXHASH" }, "status": "successfull", "transaction": { "transactionId": "TXHASH" } })
-    expect(updateTransactionHashSpy).toHaveBeenCalledTimes(1)
   })
 });
 
