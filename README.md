@@ -27,9 +27,9 @@ As an alternative you can click the link bellow and fill all ENVs manully but yo
 After successful deploy you can see the Robo Wallet address on the Project's transfers page.
 Now we must configure this wallet to be able to sign and transfer transactions.
 
-#### Top up ETHs
+#### Top up ETHs or SOLs
 
-First of all the Robo Wallet must have enough ETHs to pay a fee for each transaction, so you should top up the Robo Wallet address.
+First of all the Robo Wallet must have enough ETHs or SOLs to pay a fee for each transaction, so you should top up the Robo Wallet address.
 
 #### Top up tokens
 
@@ -62,6 +62,8 @@ The standard defines following rules for transaction fees:
 
 `MaxFeePerGas` – max amount in gwei per gas to be paid as transaction fee (controlled with env variable)
 
+### SPL Token transfer flow
+![schema](doc/spl_token_transfer_success_flow.png)
 
 ### Manage process:
 ```shell
