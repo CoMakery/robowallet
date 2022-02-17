@@ -1,9 +1,8 @@
-
 const SolanaBlockchain = require('../lib/blockchains/SolanaBlockchain').SolanaBlockchain
 const BigNumber = require('bignumber.js')
 const { SolanaTxValidator } = require('../lib/TxValidator');
 
-describe("SolanaTxValidator.isSystemTxValid", () => {
+describe("SolanaTxValidator.isSplTxBatchValid", () => {
   const solanaBlockchain = new SolanaBlockchain({
     figmentApiKey: "figment_project_id",
     blockchainNetwork: 'solana_devnet',

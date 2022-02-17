@@ -26,7 +26,7 @@ describe("SolanaBlockchain.isTransactionValid", () => {
       const transcation = {
         txRaw: JSON.stringify({
           type: unknowTxType
-        }), 
+        }),
         blockchainTransactables: SplblockchainTransactablesBatch
       }
       const validResults = await solanaTxValidator.isTransactionValid(transcation, hwAddress)
@@ -37,8 +37,8 @@ describe("SolanaBlockchain.isTransactionValid", () => {
     })
 
     test('for empty transactable', async () => {
-      const blockchainTransaction = {... require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction }
-      blockchainTransaction.blockchainTransactables = []  
+      const blockchainTransaction = { ...require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction }
+      blockchainTransaction.blockchainTransactables = []
 
       const validResults = await solanaTxValidator.isTransactionValid(blockchainTransaction, hwAddress)
       expect(validResults.valid).toBe(false)
@@ -54,12 +54,14 @@ describe("SolanaBlockchain.isTransactionValid", () => {
 
     test('for valid blockchainTransaction', async () => {
       jest.spyOn(solanaBlockchain, "getTokenBalance").mockReturnValueOnce({ balance: new BigNumber("0.00000001"), balanceInBaseUnit: new BigNumber("10") })
+      const isSplTxValidSpy = jest.spyOn(solanaTxValidator, "isSplTxValid").mockReturnValueOnce({ valid: true })
 
       const validResults = await solanaTxValidator.isTransactionValid(SplblockchainTransaction, hwAddress)
       expect(validResults.valid).toBe(true)
       expect(validResults.markAs).toBe(undefined)
       expect(validResults.error).toBe(undefined)
       expect(validResults.switchHWToManualMode).toBe(undefined)
+      expect(isSplTxValidSpy).toHaveBeenCalledTimes(1)
     })
 
     test('for incorrect txRaw', async () => {
@@ -94,37 +96,31 @@ describe("SolanaBlockchain.isTransactionValid", () => {
     })
 
     test('for different contract address and token mint adress', async () => {
+      const contractAddress = SplblockchainTransaction.contractAddress
       SplblockchainTransaction.contractAddress = 'BP225Qq7uxbaXybXkicUehkfeKkk6a1JcFwcX4Laem1t'
       const validResults = await solanaTxValidator.isTransactionValid(SplblockchainTransaction, hwAddress)
       expect(validResults.valid).toBe(false)
       expect(validResults.markAs).toBe("cancelled")
       expect(validResults.error).toEqual(`The Robo Wallet requires equal address for SPL transfers. Please check ${SplblockchainTransaction.contractAddress}, ${SplTxRaw.tokenMintAddress}`)
       expect(validResults.switchHWToManualMode).toBe(true)
+      SplblockchainTransaction.contractAddress = contractAddress
+
     })
 
     test('for different ammounts', async () => {
+      const amount = SplblockchainTransaction.amount
       SplblockchainTransaction.amount = 100
       const validResults = await solanaTxValidator.isTransactionValid(SplblockchainTransaction, hwAddress)
       expect(validResults.valid).toBe(false)
       expect(validResults.markAs).toBe("cancelled")
       expect(validResults.error).toEqual(`Incorrect arguments. Total amount is not equal to transaction amount`)
       expect(validResults.switchHWToManualMode).toBe(true)
+      SplblockchainTransaction.amount = amount
     })
   })
 
   describe("for SOL transfer", () => {
     const SolBlockchainTransaction = require('./fixtures/solanaSolBlockchainTransaction').blockchainTransaction
-
-    test('for valid blockchainTransaction', async () => {
-      jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.00001"), lamports: new BigNumber("10000") })
-
-      const validResults = await solanaTxValidator.isTransactionValid(SolBlockchainTransaction, hwAddress)
-
-      expect(validResults.valid).toBe(true)
-      expect(validResults.markAs).toBe(undefined)
-      expect(validResults.error).toBe(undefined)
-      expect(validResults.switchHWToManualMode).toBe(undefined)
-    })
 
     test('for incorrect txRaw', async () => {
       const bt = { ...SolBlockchainTransaction }
@@ -137,7 +133,7 @@ describe("SolanaBlockchain.isTransactionValid", () => {
       expect(validResults.switchHWToManualMode).toBe(undefined)
     })
 
-    test('for not enough tokens', async () => {
+    test('for not enough SOL balance', async () => {
       jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.000005000"), lamports: new BigNumber("5000") })
 
       const validResults = await solanaTxValidator.isTransactionValid(SolBlockchainTransaction, hwAddress)
@@ -156,7 +152,21 @@ describe("SolanaBlockchain.isTransactionValid", () => {
       expect(validResults.error).toEqual("Unknown error: TypeError: Cannot read property 'isLessThan' of undefined")
       expect(validResults.switchHWToManualMode).toBe(true)
     })
+
+    test('for valid blockchainTransaction', async () => {
+      jest.spyOn(solanaBlockchain, "getSolBalance").mockReturnValueOnce({ sol: new BigNumber("0.00001"), lamports: new BigNumber("10000") })
+      const isSystemTxValidSpy = jest.spyOn(solanaTxValidator, "isSystemTxValid").mockReturnValueOnce({ valid: true })
+
+      const validResults = await solanaTxValidator.isTransactionValid(SolBlockchainTransaction, hwAddress)
+
+      expect(validResults.valid).toBe(true)
+      expect(validResults.markAs).toBe(undefined)
+      expect(validResults.error).toBe(undefined)
+      expect(validResults.switchHWToManualMode).toBe(undefined)
+      expect(isSystemTxValidSpy).toHaveBeenCalledTimes(1)
+    })
   })
+
   describe('SPL batch transfer', () => {
     let SplblockchainTransaction = require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction
     const SplBatchTxRaw = require('./fixtures/solanaSplBlockchainTransaction').txBatchRaw
@@ -191,5 +201,58 @@ describe("SolanaBlockchain.isTransactionValid", () => {
       expect(validResults.error).toEqual(`Incorrect arguments. Total amount is not equal to transactions sum`)
       expect(validResults.switchHWToManualMode).toBe(true)
     })
+
+    test('for valid blockchainTransaction', async () => {
+      jest.spyOn(solanaBlockchain, "getTokenBalance").mockReturnValueOnce({ balance: new BigNumber("0.00000001"), balanceInBaseUnit: new BigNumber("10") })
+      const isSplTxBatchValidSpy = jest.spyOn(solanaTxValidator, "isSplTxBatchValid").mockReturnValueOnce({ valid: true })
+      SplblockchainTransaction.txRaw = JSON.stringify(SplBatchTxRaw)
+      SplblockchainTransaction.blockchainTransactables = SplblockchainTransactablesBatch
+
+      const validResults = await solanaTxValidator.isTransactionValid(SplblockchainTransaction, hwAddress)
+
+      expect(validResults.valid).toBe(true)
+      expect(validResults.markAs).toBe(undefined)
+      expect(validResults.error).toBe(undefined)
+      expect(validResults.switchHWToManualMode).toBe(undefined)
+      expect(isSplTxBatchValidSpy).toHaveBeenCalledTimes(1)
+    })
   })
-});
+
+  describe("for SPL fund release schedule transfer", () => {
+    let splblockchainTransaction = require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction
+    const splTx = require('./fixtures/solanaSplBlockchainTransaction').txFundReleaseSchedule
+
+    test('for valid blockchainTransaction', async () => {
+      jest.spyOn(solanaBlockchain, "getTokenBalance").mockReturnValueOnce({ balance: new BigNumber("0.00000001"), balanceInBaseUnit: new BigNumber("10") })
+      const isSplFundReleaseScheduleTxValidSpy = jest.spyOn(solanaTxValidator, "isSplFundReleaseScheduleTxValid").mockReturnValueOnce({ valid: true })
+      splblockchainTransaction.txRaw = JSON.stringify(splTx)
+
+      const validResults = await solanaTxValidator.isTransactionValid(splblockchainTransaction, hwAddress)
+
+      expect(validResults.valid).toBe(true)
+      expect(validResults.markAs).toBe(undefined)
+      expect(validResults.error).toBe(undefined)
+      expect(validResults.switchHWToManualMode).toBe(undefined)
+      expect(isSplFundReleaseScheduleTxValidSpy).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe("for SPL batch fund release schedule transfer", () => {
+    let splblockchainTransaction = require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction
+    const splTx = require('./fixtures/solanaSplBlockchainTransaction').txBatchFundReleaseSchedule
+
+    test('for valid blockchainTransaction', async () => {
+      jest.spyOn(solanaBlockchain, "getTokenBalance").mockReturnValueOnce({ balance: new BigNumber("0.00000001"), balanceInBaseUnit: new BigNumber("10") })
+      const isSplBatchFundReleaseScheduleTxValidSpy = jest.spyOn(solanaTxValidator, "isSplBatchFundReleaseScheduleTxValid").mockReturnValueOnce({ valid: true })
+      splblockchainTransaction.txRaw = JSON.stringify(splTx)
+
+      const validResults = await solanaTxValidator.isTransactionValid(splblockchainTransaction, hwAddress)
+
+      expect(validResults.valid).toBe(true)
+      expect(validResults.markAs).toBe(undefined)
+      expect(validResults.error).toBe(undefined)
+      expect(validResults.switchHWToManualMode).toBe(undefined)
+      expect(isSplBatchFundReleaseScheduleTxValidSpy).toHaveBeenCalledTimes(1)
+    })
+  })
+})
