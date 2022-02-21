@@ -44,6 +44,32 @@ describe("EthereumBlockchain.disableWallet", () => {
     expect(validResults).toEqual({ tokensWithdrawalTx: { status: "skipped", txHash: null, message: "Tokens balance is zero, transaction skipped" }, coinsWithdrawalTx: {} })
   })
 
+  test('for zero token balance coins withdrawal executed', async () => {
+    const disableValues = {
+      tokenAddress: hwAddress,
+      tokenContract: ethContractAddress,
+      coinAddress: hwAddress
+    }
+    const sendTokensTxResult = { valid: true, transactionId: 1}
+    getEthBalanceSpy.mockReturnValueOnce(new BigNumber(0.03))
+    sendTransactionSpy.mockReturnValueOnce(sendTokensTxResult)
+    getTokenBalanceSpy.mockReturnValueOnce({ balance: new BigNumber("0.0"), balanceInBaseUnit: new BigNumber("0") })
+
+    ethBlockchain.envs.ethereumMaxFeePerGas = '200'
+    const validResults = await ethBlockchain.disableWallet(disableValues, hwAddress)
+
+    expect.assertions(4)
+    expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
+    expect(sendTransactionSpy).toHaveBeenCalledTimes(1)
+    expect(getEthBalanceSpy).toHaveBeenCalledTimes(1)
+    expect(validResults).toEqual({ 
+      tokensWithdrawalTx: { status: "skipped", txHash: null, message: "Tokens balance is zero, transaction skipped" }, 
+      coinsWithdrawalTx:  { 
+        status: "success", 
+        txHash: sendTokensTxResult.transactionId, 
+        message: `Successfully sent Tx id: ${sendTokensTxResult.transactionId}`} })
+  })
+
   test('for error during token transfer', async () => {
     const disableValues = {
       tokenAddress: hwAddress,
