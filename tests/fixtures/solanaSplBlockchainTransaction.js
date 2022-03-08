@@ -67,4 +67,65 @@ const blockchainTransaction = {
   ]
 }
 
-module.exports = { blockchainTransaction, txRaw, txBatchRaw, blockchainTransactablesBatch}
+const txFundReleaseSchedule = {
+  type: 'Blockchain::Solana::Tx::SplLockup::FundReleaseSchedule',
+  tokenMintAddress: '91enn7UUM3rXqqMAmYgYRNuVQBRgTumTvV7kMCVyz5g',
+  tokenLockAddress: "HbndujEQnqw2WSt4frnGacNTQL1vdshFDHyNs5uCK96v",
+  from: "G6quj6Xdzgd6KURYWhxJxfB7TDWLUdCGLCeiVJrGT9vR",
+  to: "G6quj6Xdzgd6KURYWhxJxfB7TDWLUdCGLCeiVJrGT9vR",
+  amount: 5,
+  commencementTimestamp: 0,
+  nonce: 7473038929252323,
+  scheduleId: 1,
+  cancelableBy: [
+    'G6quj6Xdzgd6KURYWhxJxfB7TDWLUdCGLCeiVJrGT9vR',
+    '8TEvCmV1R8gacJEN4kfwGiHk4FofNmRkvMtZAqDZ6fQJ',
+    '13MFNMrNGLevvND3xyneCDVrmcrnTczaKcYomJyraoSR',
+  ]
+}
+
+const txBatchFundReleaseSchedule = {
+  type: 'Blockchain::Solana::Tx::SplLockup::BatchFundReleaseSchedule',
+  tokenMintAddress: '91enn7UUM3rXqqMAmYgYRNuVQBRgTumTvV7kMCVyz5g',
+  tokenLockAddress: "HbndujEQnqw2WSt4frnGacNTQL1vdshFDHyNs5uCK96v",
+  from: "G6quj6Xdzgd6KURYWhxJxfB7TDWLUdCGLCeiVJrGT9vR",
+  to: [
+    "J8bbjVu4kv8SNXHtgzu942EdqNE6bH6Pz7nsE8N1p8Em",
+    "4Q1gEA7eSnXDVCTiEy3WVgEWPxBLnGEmAskmLNciZNfp",
+    "6BG3RS9HBRSG5hRfoeQLJuQycyAzJimneUzbGvoiqaHC",
+  ],
+  amount: [
+    10001,
+    20002,
+    30003,
+  ],
+  commencementTimestamp: [
+    100,
+    200,
+    300,
+  ],
+  nonce: [
+    12312341355,
+    2141924555,
+    21419088355,
+  ],
+  scheduleId: [
+    1,
+    1,
+    1,
+  ],
+  cancelableBy: [
+    'G6quj6Xdzgd6KURYWhxJxfB7TDWLUdCGLCeiVJrGT9vR',
+    '8TEvCmV1R8gacJEN4kfwGiHk4FofNmRkvMtZAqDZ6fQJ',
+    '13MFNMrNGLevvND3xyneCDVrmcrnTczaKcYomJyraoSR',
+  ]
+}
+
+module.exports = {
+  blockchainTransaction,
+  txRaw,
+  txBatchRaw,
+  blockchainTransactablesBatch,
+  txFundReleaseSchedule,
+  txBatchFundReleaseSchedule
+}

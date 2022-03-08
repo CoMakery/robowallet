@@ -1,18 +1,23 @@
-
 const SolanaBlockchain = require('../lib/blockchains/SolanaBlockchain').SolanaBlockchain
 const BigNumber = require('bignumber.js')
+const { SolanaTxValidator } = require('../lib/TxValidator');
 
-describe("SolanaBlockchain.isSystemTxValid", () => {
+describe("SolanaTxValidator.isSplTxBatchValid", () => {
   const solanaBlockchain = new SolanaBlockchain({
-    figmentApiKey: "figmeent_project_id",
+    figmentApiKey: "figment_project_id",
     blockchainNetwork: 'solana_devnet',
+  })
+
+  const solanaTxValidator = new SolanaTxValidator({
+    web3: solanaBlockchain.web3,
+    blockchain: solanaBlockchain
   })
 
   test('for not equal transaction count in table and in raw', async () => {
     const blockchainTransaction = require('./fixtures/solanaSplBlockchainTransaction').blockchainTransaction
     const tx = require('./fixtures/solanaSplBlockchainTransaction').txBatchRaw
 
-    const validResults = await solanaBlockchain.isSplTxBatchValid(blockchainTransaction, tx)
+    const validResults = await solanaTxValidator.isSplTxBatchValid(blockchainTransaction, tx)
 
     expect(validResults.valid).toBe(false)
     expect(validResults.markAs).toBe("cancelled")
@@ -26,7 +31,7 @@ describe("SolanaBlockchain.isSystemTxValid", () => {
     const blockchainTransactablesBatch = require('./fixtures/solanaSplBlockchainTransaction').blockchainTransactablesBatch
     blockchainTransaction.blockchainTransactables = blockchainTransactablesBatch
 
-    const validResults = await solanaBlockchain.isSplTxBatchValid(blockchainTransaction, tx)
+    const validResults = await solanaTxValidator.isSplTxBatchValid(blockchainTransaction, tx)
 
     expect(validResults.valid).toBe(false)
     expect(validResults.markAs).toBe("cancelled")
@@ -41,7 +46,7 @@ describe("SolanaBlockchain.isSystemTxValid", () => {
     blockchainTransaction.blockchainTransactables = blockchainTransactablesBatch
     blockchainTransaction.amount = BigNumber.sum.apply(null, tx.amount)
 
-    const validResults = await solanaBlockchain.isSplTxBatchValid(blockchainTransaction, tx)
+    const validResults = await solanaTxValidator.isSplTxBatchValid(blockchainTransaction, tx)
 
     expect(validResults).toEqual({ valid: true })
   })

@@ -97,6 +97,10 @@
       "required": true,
       "value": "4"
     },
+    "FIGMENT_API_KEY": {
+      "description": "API key for Figment. Required to use with Solana blockchain.",
+      "required": false
+    },
     "OPT_IN_APP": {
       "description": "Algorand app to auto opt-in. Required to use with algorand blockchain.",
       "required": false

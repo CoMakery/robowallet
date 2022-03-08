@@ -1,14 +1,21 @@
 const SolanaBlockchain = require('../lib/blockchains/SolanaBlockchain').SolanaBlockchain
 const Web3 = require('@solana/web3.js')
+const { SolanaTxValidator } = require('../lib/TxValidator');
 
-describe("SolanaBlockchain.isSystemTxValid", () => {
+describe("solanaTxValidator.isSystemTxValid", () => {
   const hwAddress = 'CQSE22PAUYdorqCLqAguCkjAvhSnCB2zXyNPTinWNG58'
   const solanaBlockchain = new SolanaBlockchain({
-    figmentApiKey: "figmeent_project_id",
+    figmentApiKey: "figment_project_id",
     blockchainNetwork: 'solana_devnet',
   })
+
+  const solanaTxValidator = new SolanaTxValidator({
+    web3: solanaBlockchain.web3,
+    blockchain: solanaBlockchain
+  })
+
   let getRecentBlockhashSpy = jest.spyOn(Web3.Connection.prototype, "getRecentBlockhash")
-  let getBalanceSpy = jest.spyOn(solanaBlockchain.web3, "getBalance")
+  let getBalanceSpy = jest.spyOn(Web3.Connection.prototype, "getBalance")
   const lamportsPerSignature = 5000
 
   beforeEach(async () => {
@@ -19,7 +26,7 @@ describe("SolanaBlockchain.isSystemTxValid", () => {
     const blockchainTransaction = require('./fixtures/solanaSolBlockchainTransaction').blockchainTransaction
     let tx = JSON.parse(blockchainTransaction.txRaw)
     tx.amount = 100
-    const validResults = await solanaBlockchain.isSystemTxValid(blockchainTransaction, tx, hwAddress)
+    const validResults = await solanaTxValidator.isSystemTxValid(blockchainTransaction, tx, hwAddress)
 
     expect(validResults.valid).toBe(false)
     expect(validResults.markAs).toBe("cancelled")
@@ -33,11 +40,11 @@ describe("SolanaBlockchain.isSystemTxValid", () => {
     blockchainTransaction.amount = 0
     tx.amount = 0
 
-    const validResults = await solanaBlockchain.isSystemTxValid(blockchainTransaction, tx, hwAddress)
+    const validResults = await solanaTxValidator.isSystemTxValid(blockchainTransaction, tx, hwAddress)
 
     expect(validResults.valid).toBe(false)
     expect(validResults.markAs).toBe("cancelled")
-    expect(validResults.error).toEqual(`Transfer amount ${blockchainTransaction.amount} is less then minimum  ${SolanaBlockchain.getMinimumSolTransferAmount()}`)
+    expect(validResults.error).toEqual(`Transfer amount ${blockchainTransaction.amount} is less then minimum  ${solanaBlockchain.getMinimumSolTransferAmount()}`)
     expect(validResults.switchHWToManualMode).toBe(true)
   })
 
@@ -46,7 +53,7 @@ describe("SolanaBlockchain.isSystemTxValid", () => {
     let tx = JSON.parse(blockchainTransaction.txRaw)
     getBalanceSpy.mockImplementation(() => { return lamportsPerSignature });
 
-    const validResults = await solanaBlockchain.isSystemTxValid(blockchainTransaction, tx, hwAddress)
+    const validResults = await solanaTxValidator.isSystemTxValid(blockchainTransaction, tx, hwAddress)
 
     expect(validResults.valid).toBe(false)
     expect(validResults.markAs).toBe("cancelled")
@@ -59,7 +66,7 @@ describe("SolanaBlockchain.isSystemTxValid", () => {
     let tx = JSON.parse(blockchainTransaction.txRaw)
     getBalanceSpy.mockImplementation(() => { return lamportsPerSignature + tx.amount });
 
-    const validResults = await solanaBlockchain.isSystemTxValid(blockchainTransaction, tx, hwAddress)
+    const validResults = await solanaTxValidator.isSystemTxValid(blockchainTransaction, tx, hwAddress)
 
     expect(validResults).toEqual({ valid: true })
   })
