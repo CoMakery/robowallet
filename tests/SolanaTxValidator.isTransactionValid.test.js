@@ -95,18 +95,6 @@ describe("SolanaBlockchain.isTransactionValid", () => {
       expect(validResults.switchHWToManualMode).toBe(true)
     })
 
-    test('for different contract address and token mint adress', async () => {
-      const contractAddress = SplblockchainTransaction.contractAddress
-      SplblockchainTransaction.contractAddress = 'BP225Qq7uxbaXybXkicUehkfeKkk6a1JcFwcX4Laem1t'
-      const validResults = await solanaTxValidator.isTransactionValid(SplblockchainTransaction, hwAddress)
-      expect(validResults.valid).toBe(false)
-      expect(validResults.markAs).toBe("cancelled")
-      expect(validResults.error).toEqual(`The Robo Wallet requires equal address for SPL transfers. Please check ${SplblockchainTransaction.contractAddress}, ${SplTxRaw.tokenMintAddress}`)
-      expect(validResults.switchHWToManualMode).toBe(true)
-      SplblockchainTransaction.contractAddress = contractAddress
-
-    })
-
     test('for different ammounts', async () => {
       const amount = SplblockchainTransaction.amount
       SplblockchainTransaction.amount = 100
