@@ -192,5 +192,32 @@ describe("SolanaBlockchain.disableWallet", () => {
         }
       })
     })
+
+    test('for token and withdrawal with mintAddress value', async () => {
+      const disableValues = {
+        tokenAddress: recepientAddress,
+        coinAddress: recepientAddress,
+        mintAddress: tokenMintAddress
+      }
+
+      getTokenBalanceSpy.mockReturnValueOnce({ balance: new BigNumber("1.0"), balanceInBaseUnit: new BigNumber("1000000000") })
+      sendTransactionSpy.mockReturnValue({ valid: true, transactionId: txHash })
+      getSolBalanceSpy.mockReturnValueOnce({ sol: new BigNumber("0.000001001"), lamports: new BigNumber("1001") })
+
+      const validResults = await solanaBlockchain.disableWallet(disableValues, hwAddress)
+
+      expect.assertions(4)
+      expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
+      expect(sendTransactionSpy).toHaveBeenCalledTimes(2)
+      expect(getSolBalanceSpy).toHaveBeenCalledTimes(1)
+      expect(validResults).toEqual({
+        tokensWithdrawalTx: {
+          status: "success", txHash: txHash, message: `Successfully sent Tx id: ${txHash}`
+        },
+        coinsWithdrawalTx: {
+          status: "success", txHash: txHash, message: `Successfully sent Tx id: ${txHash}`
+        }
+      })
+    })
   })
 })
