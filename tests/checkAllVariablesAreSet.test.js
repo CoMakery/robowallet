@@ -328,6 +328,23 @@ describe("Check that all variables are set test suite", () => {
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(false)
   })
 
+  test('ethereumContractAddress is null for ethereum with token_type eth', async () => {
+    const envs = {
+      projectId: "1",
+      projectApiKey: "project_api_key",
+      comakeryServerUrl: "http://cmk.server",
+      infuraProjectId: "infura_project_id",
+      redisUrl: "redis://localhost:6379/0",
+      emptyQueueDelay: 30,
+      blockchainNetwork: 'ethereum_ropsten',
+      maxAmountForTransfer: 100000000,
+      ethereumTokenSymbol: "ETH",
+      ethereumTokenType: 'eth',
+      ethereumContractAddress: null
+    }
+    expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(true)
+  })
+
   test('infuraProjectId is null for algorand', async () => {
     const envs = {
       projectId: "1",
