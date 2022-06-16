@@ -15,6 +15,7 @@ describe("EthereumBlockchain.disableWallet", () => {
   let sendTransactionSpy = jest.spyOn(ethBlockchain, "sendTransaction")
   let getTokenBalanceSpy = jest.spyOn(ethBlockchain, "getTokenBalance")
   let getEthBalanceSpy = jest.spyOn(ethBlockchain, "getEthBalance")
+  let getCurrentBaseFeeSpy = jest.spyOn(ethBlockchain, "getCurrentBaseFee")
 
   afterEach(() => {
     jest.resetAllMocks()
@@ -51,22 +52,25 @@ describe("EthereumBlockchain.disableWallet", () => {
       coinAddress: hwAddress
     }
     const sendTokensTxResult = { valid: true, transactionId: 1}
+
+    ethBlockchain.envs.ethereumMaxPriorityFeePerGas = '4'
+
     getEthBalanceSpy.mockReturnValueOnce(new BigNumber(0.03))
     sendTransactionSpy.mockReturnValueOnce(sendTokensTxResult)
     getTokenBalanceSpy.mockReturnValueOnce({ balance: new BigNumber("0.0"), balanceInBaseUnit: new BigNumber("0") })
+    getCurrentBaseFeeSpy.mockReturnValueOnce(100)
 
-    ethBlockchain.envs.ethereumMaxFeePerGas = '200'
     const validResults = await ethBlockchain.disableWallet(disableValues, hwAddress)
 
     expect.assertions(4)
     expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
     expect(sendTransactionSpy).toHaveBeenCalledTimes(1)
     expect(getEthBalanceSpy).toHaveBeenCalledTimes(1)
-    expect(validResults).toEqual({ 
-      tokensWithdrawalTx: { status: "skipped", txHash: null, message: "Tokens balance is zero, transaction skipped" }, 
-      coinsWithdrawalTx:  { 
-        status: "success", 
-        txHash: sendTokensTxResult.transactionId, 
+    expect(validResults).toEqual({
+      tokensWithdrawalTx: { status: "skipped", txHash: null, message: "Tokens balance is zero, transaction skipped" },
+      coinsWithdrawalTx:  {
+        status: "success",
+        txHash: sendTokensTxResult.transactionId,
         message: `Successfully sent Tx id: ${sendTokensTxResult.transactionId}`} })
   })
 
@@ -139,12 +143,13 @@ describe("EthereumBlockchain.disableWallet", () => {
       coinsWithdrawalTx: sendCoinsTxResult
     }
 
-    ethBlockchain.envs.ethereumMaxFeePerGas = '200'
+    ethBlockchain.envs.ethereumMaxPriorityFeePerGas = '4'
 
     getTokenBalanceSpy.mockReturnValueOnce({ balance: new BigNumber("1.0"), balanceInBaseUnit: new BigNumber("1000000") })
     sendTransactionSpy.mockReturnValueOnce({ transactionId: transactionHash })
     sendTransactionSpy.mockReturnValueOnce({ valid: false, markAs: "failed", error: "Error during withdraw ETH tx" })
     getEthBalanceSpy.mockReturnValueOnce(new BigNumber("0.03"))
+    getCurrentBaseFeeSpy.mockReturnValueOnce(100)
 
     const validResults = await ethBlockchain.disableWallet(disableValues, hwAddress)
 
