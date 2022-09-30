@@ -206,7 +206,7 @@ describe("Check that all variables are set test suite", () => {
       blockchainNetwork: 'algorand_test',
       maxAmountForTransfer: 100000000,
     }
-    expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(false)
+    expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(true)
   })
 
   test('optInApp is null for ethereum', async () => {
