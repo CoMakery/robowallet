@@ -1,5 +1,4 @@
 const hwUtils = require("../lib/hotwalletUtils")
-const Chain = require("@open-rights-exchange/chainjs").Chain
 const BigNumber = require('bignumber.js')
 const {
   blockchainTransaction,
