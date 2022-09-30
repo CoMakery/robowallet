@@ -1,6 +1,10 @@
 const hwUtils = require("../lib/hotwalletUtils");
 const { AlgorandTxValidator } = require("../lib/TxValidator");
-const blockchainTransaction = require('./fixtures/algorandBlockchainTransaction').blockchainTransaction
+const {
+  blockchainTransaction,
+  blockchainTransactionAsset,
+  blockchainTransactionPayment
+} = require("./fixtures/algorandBlockchainTransaction");
 
 const envs = {
   projectId: "1",
@@ -13,6 +17,16 @@ const envs = {
   blockchainNetwork: "algorand_test",
 }
 
+const envsNonApp = {
+  projectId: "1",
+  projectApiKey: "project_api_key",
+  comakeryServerUrl: null,
+  purestakeApi: "purestake_api_key",
+  redisUrl: "redis://localhost:6379/0",
+  emptyQueueDelay: 30,
+  blockchainNetwork: "algorand_test",
+}
+
 describe("Is transaction valid test suite", () => {
   const hwAddress = "YFGM3UODOZVHSI4HXKPXOKFI6T2YCIK3HKWJYXYFQBONJD4D3HD2DPMYW4"
 
@@ -20,7 +34,7 @@ describe("Is transaction valid test suite", () => {
     jest.restoreAllMocks()
   })
 
-  test("valid", async () => {
+  test("valid app transaction", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
     const txValidator = new AlgorandTxValidator({
       envs: envs,
@@ -29,6 +43,32 @@ describe("Is transaction valid test suite", () => {
     jest.spyOn(hwAlgorand, "getTokenBalance").mockReturnValueOnce(5)
 
     res = await txValidator.isTransactionValid(blockchainTransaction, hwAddress)
+
+    expect(res).toEqual({ valid: true })
+  })
+
+  test("valid payment transaction", async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
+    const txValidator = new AlgorandTxValidator({
+      envs: envsNonApp,
+      blockchain: hwAlgorand
+    })
+    jest.spyOn(hwAlgorand, "getTokenBalance").mockReturnValueOnce(5)
+
+    res = await txValidator.isTransactionValid(blockchainTransactionPayment, hwAddress)
+
+    expect(res).toEqual({ valid: true })
+  })
+
+  test("valid asset transaction", async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
+    const txValidator = new AlgorandTxValidator({
+      envs: envsNonApp,
+      blockchain: hwAlgorand
+    })
+    jest.spyOn(hwAlgorand, "getTokenBalance").mockReturnValueOnce(5)
+
+    res = await txValidator.isTransactionValid(blockchainTransactionAsset, hwAddress)
 
     expect(res).toEqual({ valid: true })
   })

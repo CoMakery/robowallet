@@ -1,7 +1,11 @@
 const hwUtils = require("../lib/hotwalletUtils")
-const blockchainTransaction = require('./fixtures/algorandBlockchainTransaction').blockchainTransaction
 const Chain = require("@open-rights-exchange/chainjs").Chain
 const BigNumber = require('bignumber.js')
+const {
+  blockchainTransaction,
+  blockchainTransactionAsset,
+  blockchainTransactionPayment
+} = require("./fixtures/algorandBlockchainTransaction");
 
 const envs = {
   projectId: "1",
@@ -120,7 +124,7 @@ describe("Send transactio test suite", () => {
     expect(composeActionSpy).toHaveBeenCalledTimes(1)
   })
 
-  test('for successful operation', async () => {
+  test('for successful app transaction', async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(Object.assign(envs, { maxAmountForTransfer: 0 }))
     const connectSpy = jest.spyOn(hwAlgorand, "connect").mockReturnValueOnce(5)
     const txResult = { transactionId: txHash }
@@ -132,6 +136,48 @@ describe("Send transactio test suite", () => {
     let getAlgoBalanceForHwSpy = jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet")
     getAlgoBalanceForHwSpy.mockReturnValueOnce(new BigNumber(1000))
     const appTx = { ...blockchainTransaction }
+
+    const res = await hwAlgorand.sendTransaction(appTx, hotWalet)
+
+    expect(res).toEqual(txResult)
+    expect(connectSpy).toHaveBeenCalledTimes(1)
+    expect(transactionSpy).toHaveBeenCalledTimes(1)
+    expect(composeActionSpy).toHaveBeenCalledTimes(1)
+  })
+
+  test('for successful payment transaction', async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(Object.assign(envs, { maxAmountForTransfer: 0 }))
+    const connectSpy = jest.spyOn(hwAlgorand, "connect").mockReturnValueOnce(5)
+    const txResult = { transactionId: txHash }
+    transaction.getSuggestedFee.mockReturnValueOnce(new BigNumber(1000))
+    transaction.send.mockReturnValueOnce(txResult)
+
+    const transactionSpy = jest.spyOn(hwAlgorand.chain.new, "Transaction").mockReturnValueOnce(transaction)
+    const composeActionSpy = jest.spyOn(hwAlgorand.chain, "composeAction").mockReturnValueOnce(5)
+    let getAlgoBalanceForHwSpy = jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet")
+    getAlgoBalanceForHwSpy.mockReturnValueOnce(new BigNumber(1000))
+    const appTx = { ...blockchainTransactionPayment }
+
+    const res = await hwAlgorand.sendTransaction(appTx, hotWalet)
+
+    expect(res).toEqual(txResult)
+    expect(connectSpy).toHaveBeenCalledTimes(1)
+    expect(transactionSpy).toHaveBeenCalledTimes(1)
+    expect(composeActionSpy).toHaveBeenCalledTimes(1)
+  })
+
+  test('for successful asset transaction', async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(Object.assign(envs, { maxAmountForTransfer: 0 }))
+    const connectSpy = jest.spyOn(hwAlgorand, "connect").mockReturnValueOnce(5)
+    const txResult = { transactionId: txHash }
+    transaction.getSuggestedFee.mockReturnValueOnce(new BigNumber(1000))
+    transaction.send.mockReturnValueOnce(txResult)
+
+    const transactionSpy = jest.spyOn(hwAlgorand.chain.new, "Transaction").mockReturnValueOnce(transaction)
+    const composeActionSpy = jest.spyOn(hwAlgorand.chain, "composeAction").mockReturnValueOnce(5)
+    let getAlgoBalanceForHwSpy = jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet")
+    getAlgoBalanceForHwSpy.mockReturnValueOnce(new BigNumber(1000))
+    const appTx = { ...blockchainTransactionAsset }
 
     const res = await hwAlgorand.sendTransaction(appTx, hotWalet)
 
