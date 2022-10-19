@@ -12,15 +12,25 @@ const envs = {
 }
 
 describe("Get Algo balance for Hot Wallet", () => {
-  const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
   const hwAddress = "YFGM3UODOZVHSI4HXKPXOKFI6T2YCIK3HKWJYXYFQBONJD4D3HD2DPMYW4"
 
   test("with succesfully response", async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
     jest.spyOn(hwAlgorand, "connect").mockImplementation(() => { return true });
     jest.spyOn(hwAlgorand.chain, "fetchBalance").mockImplementation(() => { return { balance: "99.5" } });
 
     res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
 
     expect(res).toEqual(new BigNumber("99.5"))
+  })
+
+  test("with failed response", async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
+    jest.spyOn(hwAlgorand, "connect").mockImplementation(() => { return true });
+    jest.spyOn(hwAlgorand.chain, "fetchBalance").mockImplementation(() => { throw new Error('no accounts found for address') });
+
+    res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
+
+    expect(res).toEqual(new BigNumber(0))
   })
 });
