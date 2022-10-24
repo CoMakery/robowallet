@@ -31,7 +31,7 @@ describe("Get Algo balance for Hot Wallet", () => {
 
     res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
 
-    expect(res).toEqual(0)
+    expect(res).toEqual(new BigNumber(0))
   })
 
   test("with failed response", async () => {
@@ -41,6 +41,6 @@ describe("Get Algo balance for Hot Wallet", () => {
 
     res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
 
-    expect(res).toBe(undefined)
+    expect(res).toEqual(new BigNumber(NaN))
   })
 });
