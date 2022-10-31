@@ -173,7 +173,7 @@ describe("Is transaction valid test suite", () => {
 
     res = await txValidator.isTransactionValid(blockchainTransaction, hwAddress)
 
-    expect(res).toEqual({ valid: false, markAs: "failed", error: "The transaction has too big amount for transfer (5). Max amount is 4" })
+    expect(res).toEqual({ valid: false, markAs: "failed", error: "The transaction's transfer is too large (5). Max amount is 4" })
   })
 
   test("invalid: HW has not enough coins to transfer", async () => {
