@@ -6,6 +6,7 @@ const {
   blockchainTransactionPayment,
   blockchainTransactionFundOptIn
 } = require("./fixtures/algorandBlockchainTransaction");
+const BigNumber = require('bignumber.js')
 
 const envs = {
   projectId: "1",
@@ -80,7 +81,7 @@ describe("Is transaction valid test suite", () => {
       envs,
       blockchain: hwAlgorand
     })
-    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(5)
+    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(5))
 
     res = await txValidator.isTransactionValid(blockchainTransactionFundOptIn, hwAddress)
 
@@ -182,11 +183,11 @@ describe("Is transaction valid test suite", () => {
       envs,
       blockchain: hwAlgorand
     })
-    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(0.9)
+    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(0.9))
 
     res = await txValidator.isTransactionValid(blockchainTransactionFundOptIn, hwAddress)
 
-    expect(res).toEqual({ valid: false, markAs: "cancelled", error: "The Hot Wallet has insufficient coins to transfer (0.9 < 1)" })
+    expect(res).toEqual({ valid: false, markAs: "cancelled", error: "The Hot Wallet has insufficient coins to transfer (900000 < 1000000)" })
   })
 });
 
