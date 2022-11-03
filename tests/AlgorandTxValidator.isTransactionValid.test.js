@@ -3,8 +3,10 @@ const { AlgorandTxValidator } = require("../lib/TxValidator");
 const {
   blockchainTransaction,
   blockchainTransactionAsset,
-  blockchainTransactionPayment
+  blockchainTransactionPayment,
+  blockchainTransactionFundOptIn
 } = require("./fixtures/algorandBlockchainTransaction");
+const BigNumber = require('bignumber.js')
 
 const envs = {
   projectId: "1",
@@ -69,6 +71,19 @@ describe("Is transaction valid test suite", () => {
     jest.spyOn(hwAlgorand, "getTokenBalance").mockReturnValueOnce(5)
 
     res = await txValidator.isTransactionValid(blockchainTransactionAsset, hwAddress)
+
+    expect(res).toEqual({ valid: true })
+  })
+
+  test("valid FundOptIn transaction", async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
+    const txValidator = new AlgorandTxValidator({
+      envs,
+      blockchain: hwAlgorand
+    })
+    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(5))
+
+    res = await txValidator.isTransactionValid(blockchainTransactionFundOptIn, hwAddress)
 
     expect(res).toEqual({ valid: true })
   })
@@ -159,7 +174,20 @@ describe("Is transaction valid test suite", () => {
 
     res = await txValidator.isTransactionValid(blockchainTransaction, hwAddress)
 
-    expect(res).toEqual({ valid: false, markAs: "failed", error: "The transaction has too big amount for transfer (5). Max amount is 4" })
+    expect(res).toEqual({ valid: false, markAs: "failed", error: "The transaction's transfer is too large (5). Max amount is 4" })
+  })
+
+  test("invalid: HW has not enough coins to transfer", async () => {
+    const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
+    const txValidator = new AlgorandTxValidator({
+      envs,
+      blockchain: hwAlgorand
+    })
+    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(0.9))
+
+    res = await txValidator.isTransactionValid(blockchainTransactionFundOptIn, hwAddress)
+
+    expect(res).toEqual({ valid: false, markAs: "cancelled", error: "The Hot Wallet has insufficient coins to transfer (900000 < 1000000)" })
   })
 });
 
