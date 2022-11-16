@@ -97,8 +97,8 @@
       "required": true,
       "value": "4"
     },
-    "FIGMENT_API_KEY": {
-      "description": "API key for Figment. Required to use with Solana blockchain.",
+    "ALCHEMY_API_KEY": {
+      "description": "API key for Alchemy. Required to use with Solana blockchain.",
       "required": false
     },
     "OPT_IN_APP": {

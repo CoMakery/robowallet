@@ -45,11 +45,11 @@ describe("Check that all variables are set test suite", () => {
       comakeryServerUrl: "http://cmk.server",
       // purestakeApi: "purestake_api_key", // not required for solana
       // infuraProjectId: "infura_project_id", // not required for solana
-      figmentApiKey: "figment_project_id", // not required for solana
+      alchemyApiKey: "alchemy_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       // optInApp: 13997710, // not required for ethereum
-      blockchainNetwork: 'solana_testnet',
+      blockchainNetwork: 'solana_devnet',
       maxAmountForTransfer: 100000000, // optional
       ethereumTokenSymbol: "XYZ2",
       ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
@@ -379,15 +379,15 @@ describe("Check that all variables are set test suite", () => {
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(false)
   })
 
-  test('figmentApiKey is null for solana', async () => {
+  test('alchemyApiKey is null for solana', async () => {
     const envs = {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      figmentApiKey: null,
+      alchemyApiKey: null,
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
-      blockchainNetwork: 'solana_testnet',
+      blockchainNetwork: 'solana',
       maxAmountForTransfer: 100000000,
     }
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(false)
