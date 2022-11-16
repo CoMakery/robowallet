@@ -4,7 +4,7 @@ const BigNumber = require('bignumber.js')
 describe("SolanaBlockchain check for SOL balance", () => {
   test('return balance as a BigNumber object', async () => {
     const solanaBlockchain = new SolanaBlockchain({
-      figmentApiKey: "figmeent_api_key",
+      alchemyApiKey: "alchemy_api_key",
       blockchainNetwork: 'solana_devnet'
     })
 
@@ -17,7 +17,7 @@ describe("SolanaBlockchain check for SOL balance", () => {
 
   test('return zero of something went wrong', async () => {
     const solanaBlockchain = new SolanaBlockchain({
-      figmentApiKey: "figmeent_api_key",
+      alchemyApiKey: "alchemy_api_key",
       blockchainNetwork: 'solana_devnet'
     })
 
