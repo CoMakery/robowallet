@@ -81,7 +81,8 @@ describe("Is transaction valid test suite", () => {
       envs,
       blockchain: hwAlgorand
     })
-    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(5))
+    const balance = '5000000'
+    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(balance))
 
     res = await txValidator.isTransactionValid(blockchainTransactionFundOptIn, hwAddress)
 
@@ -183,11 +184,12 @@ describe("Is transaction valid test suite", () => {
       envs,
       blockchain: hwAlgorand
     })
-    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(0.9))
+    const balance = '999999'
+    jest.spyOn(hwAlgorand, "getAlgoBalanceForHotWallet").mockReturnValueOnce(new BigNumber(balance))
 
     res = await txValidator.isTransactionValid(blockchainTransactionFundOptIn, hwAddress)
 
-    expect(res).toEqual({ valid: false, markAs: "cancelled", error: "The Hot Wallet has insufficient coins to transfer (900000 < 1000000)" })
+    expect(res).toEqual({ valid: false, markAs: "cancelled", error: `The Hot Wallet has insufficient coins to transfer (${balance} < 1000000)` })
   })
 });
 

@@ -16,18 +16,25 @@ describe("Get Algo balance for Hot Wallet", () => {
 
   test("with succesfully response", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    jest.spyOn(hwAlgorand, "connect").mockImplementation(() => { return true });
-    jest.spyOn(hwAlgorand.chain, "fetchBalance").mockImplementation(() => { return { balance: "99.5" } });
+    const returnValue = {
+      amount: BigInt(1000)
+    }
+    jest.spyOn(hwAlgorand.algodClient, "accountInformation").mockImplementation(() => {
+      return { 
+        do: jest.fn().mockReturnValue(returnValue) 
+      }
+    });
 
     res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
 
-    expect(res).toEqual(new BigNumber("99.5"))
+    expect(res).toEqual(new BigNumber("1000"))
   })
 
   test("with no account found error", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    jest.spyOn(hwAlgorand, "connect").mockImplementation(() => { return true });
-    jest.spyOn(hwAlgorand.chain, "fetchBalance").mockImplementation(() => { throw new Error('no accounts found for address') });
+    jest.spyOn(hwAlgorand.algodClient, "accountInformation").mockImplementation(() => {
+      throw new Error('no accounts found for address')
+    });
 
     res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
 
@@ -36,8 +43,9 @@ describe("Get Algo balance for Hot Wallet", () => {
 
   test("with failed response", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    jest.spyOn(hwAlgorand, "connect").mockImplementation(() => { return true });
-    jest.spyOn(hwAlgorand.chain, "fetchBalance").mockImplementation(() => { throw new Error('error') });
+    jest.spyOn(hwAlgorand.algodClient, "accountInformation").mockImplementation(() => {
+      throw new Error('error')
+    });
 
     res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
 

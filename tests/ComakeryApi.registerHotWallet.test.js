@@ -11,8 +11,13 @@ const algoEnvs = {
   redisUrl: "redis://localhost:6379/0"
 }
 
+const algoKeys = {
+  privateKey: "9a55e3a9daadca1dd7020377db933a805f6c410aa6f86932dfbd67e48b40514aa505614025fdd411dfba826a6b56e4393a1e75b2eec37ed40800db9dc68b33b8",
+  publicKey: "UUCWCQBF7XKBDX52QJVGWVXEHE5B45NS53BX5VAIADNZ3RULGO4I6XDZHE"
+}
+
 describe("Register a Hot Wallet", () => {
-  const wallet = new hwUtils.HotWallet("algorand_test", "YFGM3UODOZVHSI4HXKPXOKFI6T2YCIK3HKWJYXYFQBONJD4D3HD2DPMYW4", {})
+  const wallet = new hwUtils.HotWallet("algorand_test", algoKeys.publicKey, algoKeys)
   const redisClient = redis.createClient()
   const hwRedis = new hwUtils.HotWalletRedis(algoEnvs, redisClient)
   const hwApi = new hwUtils.ComakeryApi(algoEnvs)
