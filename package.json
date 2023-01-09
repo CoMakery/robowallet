@@ -9,7 +9,8 @@
     "test": "jest -i"
   },
   "dependencies": {
-    "@ethereumjs/tx": "^3.3.1",
+    "@ethereumjs/common": "^2.6.5",
+    "@ethereumjs/tx": "^3.5.2",
     "@project-serum/anchor": "^0.21.0",
     "@solana/spl-token": "^0.1.8",
     "@solana/web3.js": "^1.32.0",
@@ -17,6 +18,7 @@
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
     "dotenv": "^8.2.0",
+    "ethers": "^5.7.2",
     "json-bigint": "^1.0.0",
     "pm2": "^4.5.1",
     "redis": "^3.1.1",

@@ -55,7 +55,7 @@ describe("EthereumBlockchain.disableWallet", () => {
 
     ethBlockchain.envs.ethereumMaxPriorityFeePerGas = '4'
 
-    getEthBalanceSpy.mockReturnValueOnce(new BigNumber(0.03))
+    getEthBalanceSpy.mockReturnValueOnce(new BigNumber(3 * 10 ** 16))
     sendTransactionSpy.mockReturnValueOnce(sendTokensTxResult)
     getTokenBalanceSpy.mockReturnValueOnce({ balance: new BigNumber("0.0"), balanceInBaseUnit: new BigNumber("0") })
     getCurrentBaseFeeSpy.mockReturnValueOnce(100)
@@ -119,7 +119,7 @@ describe("EthereumBlockchain.disableWallet", () => {
 
     getTokenBalanceSpy.mockReturnValueOnce({ balance: new BigNumber("1.0"), balanceInBaseUnit: new BigNumber("1000000") })
     sendTransactionSpy.mockReturnValueOnce({ transactionId: transactionHash })
-    getEthBalanceSpy.mockReturnValueOnce(new BigNumber(EthereumBlockchain.getMinimumCoinBalanceWithdrawal()))
+    getEthBalanceSpy.mockReturnValueOnce(new BigNumber(EthereumBlockchain.getMinimumCoinBalanceWithdrawal() * 10 ** 18))
 
     const validResults = await ethBlockchain.disableWallet(disableValues, hwAddress)
 
@@ -148,7 +148,7 @@ describe("EthereumBlockchain.disableWallet", () => {
     getTokenBalanceSpy.mockReturnValueOnce({ balance: new BigNumber("1.0"), balanceInBaseUnit: new BigNumber("1000000") })
     sendTransactionSpy.mockReturnValueOnce({ transactionId: transactionHash })
     sendTransactionSpy.mockReturnValueOnce({ valid: false, markAs: "failed", error: "Error during withdraw ETH tx" })
-    getEthBalanceSpy.mockReturnValueOnce(new BigNumber("0.03"))
+    getEthBalanceSpy.mockReturnValueOnce(new BigNumber(3 * 10 ** 16))
     getCurrentBaseFeeSpy.mockReturnValueOnce(100)
 
     const validResults = await ethBlockchain.disableWallet(disableValues, hwAddress)
