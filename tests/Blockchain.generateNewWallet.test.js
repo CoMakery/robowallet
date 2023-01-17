@@ -23,16 +23,10 @@ describe("Blockchain generate new wallet test suite", () => {
       blockchainNetwork: 'ethereum_ropsten'
     })
     const createAccount = {
-      generateKeysIfNeeded: jest.fn(),
-      accountName: '0x2aA78Db0BEff941883C33EA150ed86eaDE09A377',
-      generatedKeys: {
-        publicKey: "057bac3f6921e98a89a3bfe2b2ec138577da66ee58329b741e44de93431f8bde",
-        privateKey: "fb2c017e4b6ab9c8c6cf7513223f5cd0b493c249a39a68cd29b26d37274bad29057bac3f6921e98a89a3bfe2b2ec138577da66ee58329b741e44de93431f8bde",
-        privateKeyEncrypted: "Z6mKYt1ntc+s1xQkK4HYKZtUsK4Kdg18kOa2p2SL6H0Q4GO0pafso6fEEmQgDoiakzj3lfqp3s5/1kEjNZomWm1h8xdwbBHUT4rrrTfohjdPZAe5Fg1Sw/6hA+mm7dKN8eWzEFaNe7LIdFrzHD0bOz5OSif8+t3QGmQfrbVulRakLfBh5tc6MVOsAMAt57d6nXUhaQfwPtuDB41bPoMRmAYrwjKrTmiu"
-      }
+      address: "0xdc5B966F639a2FDC78F0808E8D17087Ea835f13D",
+      privateKey: "0x21e2e5a0e97c9fe9bf2561c41a94801517b86093d6810ab9b9eade47d5171859",
     }
-    jest.spyOn(ethBlockchain, "connect").mockImplementation(() => { return true });
-    jest.spyOn(ethBlockchain.chain.new, "CreateAccount").mockReturnValueOnce(createAccount)
+    jest.spyOn(ethBlockchain.web3.eth.accounts, "create").mockReturnValueOnce(createAccount)
 
     const keys = await ethBlockchain.generateNewWallet()
     expect(keys).toBeInstanceOf(hwUtils.HotWallet)

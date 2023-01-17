@@ -16,7 +16,6 @@ describe("EthereumBlockchain check for token balance", () => {
         decimals: () => { return { call: () => "0"}},
       }
     })
-    jest.spyOn(ethBlockchain, "connect").mockReturnValue(true)
     jest.spyOn(ethBlockchain, "tokenContract").mockImplementation(tokenContractMocked)
 
     const balance = await ethBlockchain.getTokenBalance("0x2aA78Db0BEff941883C33EA150ed86eaDE09A377")
@@ -38,7 +37,6 @@ describe("EthereumBlockchain check for token balance", () => {
         decimals: () => { return { call: () => null }},
       }
     })
-    jest.spyOn(ethBlockchain, "connect").mockReturnValue(true)
     jest.spyOn(ethBlockchain, "tokenContract").mockImplementation(tokenContractMocked)
 
     const balance = await ethBlockchain.getTokenBalance("0x2aA78Db0BEff941883C33EA150ed86eaDE09A377")
@@ -63,7 +61,6 @@ describe("EthereumBlockchain check for token balance", () => {
         decimals: () => { return { call: () => "2"}},
       }
     })
-    jest.spyOn(ethBlockchain, "connect").mockReturnValue(true)
     jest.spyOn(ethBlockchain, "tokenContract").mockImplementation(tokenContractMocked)
 
     const balance = await ethBlockchain.getTokenBalance("0x2aA78Db0BEff941883C33EA150ed86eaDE09A377")

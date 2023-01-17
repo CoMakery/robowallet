@@ -8,21 +8,19 @@ describe("EthereumBlockchain check for eth balance", () => {
       blockchainNetwork: 'ethereum_ropsten'
     })
 
-    jest.spyOn(ethBlockchain, "connect").mockImplementation(() => { return true });
-    jest.spyOn(ethBlockchain.chain, "fetchBalance").mockImplementation(() => { return { balance: "99.5" } });
+    jest.spyOn(ethBlockchain.web3.eth, "getBalance").mockImplementation(() => { return "995" });
 
     const balance = await ethBlockchain.getEthBalance("0x2aA78Db0BEff941883C33EA150ed86eaDE09A377")
-    expect(balance).toEqual(new BigNumber("99.5"))
+    expect(balance).toEqual(new BigNumber("995"))
   })
 
-  test('return zero of something went wrong', async () => {
+  test('return zero if undefined', async () => {
     const ethBlockchain = new EthereumBlockchain({
       infuraProjectId: "39f6ad316c5a4b87a0f90956333c3666",
       blockchainNetwork: 'ethereum_ropsten'
     })
 
-    jest.spyOn(ethBlockchain, "connect").mockImplementation(() => { return true });
-    jest.spyOn(ethBlockchain.chain, "fetchBalance").mockImplementation(() => { return { something: "wrong" } });
+    jest.spyOn(ethBlockchain.web3.eth, "getBalance").mockImplementation(() => { return undefined });
 
     const balance = await ethBlockchain.getEthBalance("0x2aA78Db0BEff941883C33EA150ed86eaDE09A377")
     expect(balance).toEqual(new BigNumber(0))

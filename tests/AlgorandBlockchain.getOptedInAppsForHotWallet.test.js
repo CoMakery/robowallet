@@ -19,7 +19,6 @@ describe("Get OptedInapps for hot wallet suite", () => {
 
   test("when blockchain returns opted-in apps", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    jest.spyOn(hwAlgorand, "connect").mockReturnValue(true)
     jest.spyOn(hwAlgorand, "getOptedInAppsFromBlockchain").mockReturnValue([13997710])
 
     res = await hwAlgorand.getOptedInAppsForHotWallet(hwAddress)
@@ -29,7 +28,6 @@ describe("Get OptedInapps for hot wallet suite", () => {
 
   test("when blockchain returns no apps", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    jest.spyOn(hwAlgorand, "connect").mockReturnValue(true)
     jest.spyOn(hwAlgorand, "getOptedInAppsFromBlockchain").mockReturnValue([])
 
     res = await hwAlgorand.getOptedInAppsForHotWallet(hwAddress)
