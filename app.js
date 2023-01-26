@@ -20,7 +20,8 @@ const envs = {
   ethereumContractAddress: process.env.ETHEREUM_CONTRACT_ADDRESS,
   ethereumApprovalContractAddress: process.env.ETHEREUM_APPROVAL_CONTRACT_ADDRESS,
   ethereumMaxFeePerGas: process.env.ETHEREUM_MAX_FEE_PER_GAS,
-  ethereumMaxPriorityFeePerGas: process.env.ETHEREUM_MAX_PRIORITY_FEE_PER_GAS
+  ethereumMaxPriorityFeePerGas: process.env.ETHEREUM_MAX_PRIORITY_FEE_PER_GAS,
+  algorandDisableWalletCoinBalanceReqTimeout: process.env.ALGORAND_DISABLE_WALLET_COIN_BALANCE_REQ_TIMEOUT
 }
 
 const redisClientOptions = {
