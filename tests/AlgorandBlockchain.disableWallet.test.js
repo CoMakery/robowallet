@@ -115,14 +115,12 @@ describe("EthereumBlockchain.disableWallet", () => {
     }
     getTokenBalanceSpy.mockReturnValueOnce(new BigNumber("0"))
     isOptedInToCurrentAppSpy.mockReturnValueOnce(true)
-    getAlgoBalanceForHotWalletSpy.mockReturnValueOnce(new BigNumber(txFee * 2 + 1))
     sendTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId })
     sendWithdrawalCoinsTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId + 1 })
 
     const validResults = await algorandBlockchain.disableWallet(disableValues, hwAddress)
 
     expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
-    expect(getAlgoBalanceForHotWalletSpy).toHaveBeenCalledTimes(1)
     expect(sendTransactionSpy).toHaveBeenCalledTimes(1)
     expect(isOptedInToCurrentAppSpy).toHaveBeenCalledTimes(1)
     expect(clearAppTxSpy).toHaveBeenCalledTimes(1)
@@ -139,51 +137,18 @@ describe("EthereumBlockchain.disableWallet", () => {
     })
   })
 
-  test('for zero token balance clear app is executed and coins balance is less than minimum allowed', async () => {
-    const disableValues = {
-      tokenAddress: hwAddress,
-      coinAddress: hwAddress
-    }
-    getTokenBalanceSpy.mockReturnValueOnce(new BigNumber("0"))
-    getAlgoBalanceForHotWalletSpy.mockReturnValueOnce(new BigNumber(txFee * 2))
-    isOptedInToCurrentAppSpy.mockReturnValueOnce(true)
-    sendTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId })
-    sendWithdrawalCoinsTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId + 1 })
-
-    const validResults = await algorandBlockchain.disableWallet(disableValues, hwAddress)
-
-    expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
-    expect(getAlgoBalanceForHotWalletSpy).toHaveBeenCalledTimes(1)
-    expect(sendTransactionSpy).toHaveBeenCalledTimes(1)
-    expect(clearAppTxSpy).toHaveBeenCalledTimes(1)
-    expect(isOptedInToCurrentAppSpy).toHaveBeenCalledTimes(1)
-    expect(sendWithdrawalCoinsTransactionSpy).toHaveBeenCalledTimes(0)
-
-    expect(validResults).toEqual({
-      tokensWithdrawalTx: { status: "skipped", txHash: null, message: "Tokens balance is zero, transaction skipped" },
-      clearAppTx: { status: "success", txHash: transactionId, message: `Successfully sent close out Tx id: ${transactionId}` },
-      coinsWithdrawalTx: {
-        status: "skipped",
-        txHash: null,
-        message: `ALGO balance is <= ${txFee * 2}, transaction skipped`
-      }
-    })
-  })
-
   test('coin balance withdrawed for already cleared app', async () => {
     const disableValues = {
       tokenAddress: hwAddress,
       coinAddress: hwAddress
     }
     getTokenBalanceSpy.mockReturnValueOnce(new BigNumber("0"))
-    getAlgoBalanceForHotWalletSpy.mockReturnValueOnce(new BigNumber(txFee * 2 + 1))
     isOptedInToCurrentAppSpy.mockReturnValueOnce(false)
     sendWithdrawalCoinsTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId })
 
     const validResults = await algorandBlockchain.disableWallet(disableValues, hwAddress)
 
     expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
-    expect(getAlgoBalanceForHotWalletSpy).toHaveBeenCalledTimes(1)
     expect(sendTransactionSpy).toHaveBeenCalledTimes(0)
     expect(clearAppTxSpy).toHaveBeenCalledTimes(0)
     expect(isOptedInToCurrentAppSpy).toHaveBeenCalledTimes(1)
@@ -206,14 +171,12 @@ describe("EthereumBlockchain.disableWallet", () => {
       coinAddress: hwAddress
     }
     getTokenBalanceSpy.mockReturnValueOnce(new BigNumber("1000000"))
-    getAlgoBalanceForHotWalletSpy.mockReturnValueOnce(new BigNumber(txFee * 2 + 1))
     sendTransactionSpy.mockReturnValueOnce({ valid: false, transactionId: transactionId })
     sendWithdrawalCoinsTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId + 1 })
 
     const validResults = await algorandBlockchain.disableWallet(disableValues, hwAddress)
 
     expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
-    expect(getAlgoBalanceForHotWalletSpy).toHaveBeenCalledTimes(0)
     expect(sendTransactionSpy).toHaveBeenCalledTimes(1)
     expect(clearAppTxSpy).toHaveBeenCalledTimes(0)
     expect(sendWithdrawalCoinsTransactionSpy).toHaveBeenCalledTimes(0)
@@ -231,7 +194,6 @@ describe("EthereumBlockchain.disableWallet", () => {
       coinAddress: hwAddress
     }
     getTokenBalanceSpy.mockReturnValueOnce(new BigNumber("10"))
-    getAlgoBalanceForHotWalletSpy.mockReturnValueOnce(new BigNumber(txFee * 2 + 1))
     sendTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId })
     sendTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId + 1 })
     sendWithdrawalCoinsTransactionSpy.mockReturnValueOnce({ valid: true, transactionId: transactionId + 2 })
@@ -240,7 +202,6 @@ describe("EthereumBlockchain.disableWallet", () => {
     const validResults = await algorandBlockchain.disableWallet(disableValues, hwAddress)
 
     expect(getTokenBalanceSpy).toHaveBeenCalledTimes(1)
-    expect(getAlgoBalanceForHotWalletSpy).toHaveBeenCalledTimes(1)
     expect(sendTransactionSpy).toHaveBeenCalledTimes(2)
     expect(clearAppTxSpy).toHaveBeenCalledTimes(1)
     expect(isOptedInToCurrentAppSpy).toHaveBeenCalledTimes(1)
