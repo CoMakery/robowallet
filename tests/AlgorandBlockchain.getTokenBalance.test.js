@@ -34,9 +34,8 @@ describe("Get token balance",  () => {
 
   test("return actual amount from blockchain", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    const localState = getLocalState(99)
     jest.spyOn(hwAlgorand, "getAppLocalState")
-      .mockReturnValueOnce(localState)
+      .mockReturnValueOnce(getLocalState(99))
       .mockReturnValueOnce(getLocalState(100))
 
     res = await hwAlgorand.getTokenBalance(hwAddress)
