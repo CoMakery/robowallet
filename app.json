@@ -104,11 +104,6 @@
     "OPT_IN_APP": {
       "description": "Algorand app to auto opt-in. Required to use with algorand blockchain.",
       "required": false
-    },
-    "ALGORAND_DISABLE_WALLET_COIN_BALANCE_REQ_TIMEOUT": {
-      "description": "Timeout in second before fetching balance from node on disable wallet in order to give a time to syncronize with blockchain. Required to use with algorand blockchain.",
-      "required": true,
-      "value": "10"
     }
   }
 }
