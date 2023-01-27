@@ -16,18 +16,28 @@ describe("Get Algo balance for Hot Wallet", () => {
 
   test("with succesfully response", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    const returnValue = {
-      amount: BigInt(1000)
+    const getBalance = (balance) => {
+      return {
+        amount: BigInt(balance),
+        'min-balance': BigInt(balance)
+      }
     }
+    const doMock = jest.fn()
+    doMock.mockReturnValueOnce(getBalance(1000))
+    doMock.mockReturnValueOnce(getBalance(900))
     jest.spyOn(hwAlgorand.algodClient, "accountInformation").mockImplementation(() => {
       return { 
-        do: jest.fn().mockReturnValue(returnValue) 
+        do: doMock
       }
     });
 
     res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
 
     expect(res).toEqual(new BigNumber("1000"))
+
+    // result is not cached
+    res = await hwAlgorand.getAlgoBalanceForHotWallet(hwAddress)
+    expect(res).toEqual(new BigNumber("900"))
   })
 
   test("with no account found error", async () => {

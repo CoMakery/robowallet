@@ -10,6 +10,21 @@ const envs = {
   blockchainNetwork: "algorand_test"
 }
 
+const getLocalState = (balance) => {
+  return {
+    deleted: false,
+    id: 13997710,
+    'key-value': [
+      { key: 'YmFsYW5jZQ==', value: { bytes: '', type: 2, uint: balance } },
+      { key: 'bG9ja1VudGls', value: { bytes: '', type: 2, uint: 0 } },
+      { key: 'bWF4QmFsYW5jZQ==', value: { bytes: '', type: 2, uint: 0 } },
+      { key: 'dHJhbnNmZXJHcm91cA==', value: { bytes: '', type: 2, uint: 1 } }
+    ],
+    'opted-in-at-round': 12725706,
+    schema: { 'num-byte-slice': 8, 'num-uint': 8 }
+  }
+}
+
 describe("Get token balance",  () => {
   const hwAddress = "YFGM3UODOZVHSI4HXKPXOKFI6T2YCIK3HKWJYXYFQBONJD4D3HD2DPMYW4"
 
@@ -19,27 +34,17 @@ describe("Get token balance",  () => {
 
   test("return actual amount from blockchain", async () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
-    const localState = {
-      deleted: false,
-      id: 13997710,
-      'key-value': [
-        { key: 'YmFsYW5jZQ==', value: { bytes: '', type: 2, uint: 99 } }, // balance here
-        { key: 'bG9ja1VudGls', value: { bytes: '', type: 2, uint: 0 } },
-        { key: 'bWF4QmFsYW5jZQ==', value: { bytes: '', type: 2, uint: 0 } },
-        { key: 'dHJhbnNmZXJHcm91cA==', value: { bytes: '', type: 2, uint: 1 } }
-      ],
-      'opted-in-at-round': 12725706,
-      schema: { 'num-byte-slice': 8, 'num-uint': 8 }
-    }
-    jest.spyOn(hwAlgorand, "getAppLocalState").mockReturnValueOnce(localState)
+    jest.spyOn(hwAlgorand, "getAppLocalState")
+      .mockReturnValueOnce(getLocalState(99))
+      .mockReturnValueOnce(getLocalState(100))
 
     res = await hwAlgorand.getTokenBalance(hwAddress)
 
     expect(res).toEqual(99)
 
-    // result cached
+    // result is not cached
     res = await hwAlgorand.getTokenBalance(hwAddress)
-    expect(res).toEqual(99)
+    expect(res).toEqual(100)
   })
 
   test("when local state is empty", async () => {
