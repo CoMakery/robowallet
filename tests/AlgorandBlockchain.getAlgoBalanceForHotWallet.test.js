@@ -18,7 +18,8 @@ describe("Get Algo balance for Hot Wallet", () => {
     const hwAlgorand = new hwUtils.AlgorandBlockchain(envs)
     const getBalance = (balance) => {
       return {
-        amount: BigInt(balance)
+        amount: BigInt(balance),
+        'min-balance': BigInt(balance)
       }
     }
     const doMock = jest.fn()
