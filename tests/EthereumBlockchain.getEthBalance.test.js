@@ -4,7 +4,7 @@ const BigNumber = require('bignumber.js')
 describe("EthereumBlockchain check for eth balance", () => {
   test('return balance as a BigNumber object', async () => {
     const ethBlockchain = new EthereumBlockchain({
-      alchemyApiKey: "39f6ad316c5a4b87a0f90956333c3666",
+      alchemyApiKey: "alchemy_api_key",
       blockchainNetwork: 'ethereum_sepolia'
     })
 
@@ -16,7 +16,7 @@ describe("EthereumBlockchain check for eth balance", () => {
 
   test('return zero if undefined', async () => {
     const ethBlockchain = new EthereumBlockchain({
-      alchemyApiKey: "39f6ad316c5a4b87a0f90956333c3666",
+      alchemyApiKey: "alchemy_api_key",
       blockchainNetwork: 'ethereum_sepolia'
     })
 

@@ -19,7 +19,7 @@ describe("Blockchain generate new wallet test suite", () => {
 
   test('return correct generated keys for ethereum ', async () => {
     const ethBlockchain = new hwUtils.EthereumBlockchain({
-      alchemyApiKey: "39f6ad316c5a4b87a0f90956333c3666",
+      alchemyApiKey: "alchemy_api_key",
       blockchainNetwork: 'ethereum_sepolia'
     })
     const createAccount = {
