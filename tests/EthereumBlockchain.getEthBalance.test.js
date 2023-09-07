@@ -4,8 +4,8 @@ const BigNumber = require('bignumber.js')
 describe("EthereumBlockchain check for eth balance", () => {
   test('return balance as a BigNumber object', async () => {
     const ethBlockchain = new EthereumBlockchain({
-      infuraProjectId: "39f6ad316c5a4b87a0f90956333c3666",
-      blockchainNetwork: 'ethereum_ropsten'
+      alchemyApiKey: "39f6ad316c5a4b87a0f90956333c3666",
+      blockchainNetwork: 'ethereum_sepolia'
     })
 
     jest.spyOn(ethBlockchain.web3.eth, "getBalance").mockImplementation(() => { return "995" });
@@ -16,8 +16,8 @@ describe("EthereumBlockchain check for eth balance", () => {
 
   test('return zero if undefined', async () => {
     const ethBlockchain = new EthereumBlockchain({
-      infuraProjectId: "39f6ad316c5a4b87a0f90956333c3666",
-      blockchainNetwork: 'ethereum_ropsten'
+      alchemyApiKey: "39f6ad316c5a4b87a0f90956333c3666",
+      blockchainNetwork: 'ethereum_sepolia'
     })
 
     jest.spyOn(ethBlockchain.web3.eth, "getBalance").mockImplementation(() => { return undefined });

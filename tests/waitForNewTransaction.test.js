@@ -8,13 +8,13 @@ describe("For Ethereum blockchain", () => {
     projectId: "1",
     projectApiKey: "project_api_key",
     comakeryServerUrl: null,
-    infuraProjectId: "infura_project_id",
+    alchemyApiKey: "alchemy_api_key",
     redisUrl: "redis://localhost:6379/0",
-    blockchainNetwork: "ethereum_ropsten"
+    blockchainNetwork: "ethereum_sepolia"
   }
   const redisClient = redis.createClient()
   const hwRedis = new hwUtils.HotWalletRedis(envs, redisClient)
-  const wallet = new hwUtils.HotWallet("ethereum_ropsten", "0x15b4eda54e7aa56e4ca4fe6c19f7bf9d82eca2fc", {})
+  const wallet = new hwUtils.HotWallet("ethereum_sepolia", "0x15b4eda54e7aa56e4ca4fe6c19f7bf9d82eca2fc", {})
 
   beforeEach(() => {
     jest.spyOn(hwRedis, "hotWallet").mockReturnValueOnce(wallet)
@@ -76,7 +76,7 @@ describe("For Ethereum blockchain", () => {
     jest.spyOn(hwUtils.ComakeryApi.prototype, "getNextTransactionToSign").mockReturnValueOnce({ txHash: "TXHASH" })
     jest.spyOn(hwUtils.Blockchain.prototype, "sendTransaction").mockReturnValueOnce({ transactionId: "TXHASH" })
     const updateTransactionHashSpy = jest.spyOn(hwUtils.ComakeryApi.prototype, "updateTransactionHash")
-    axios.put.mockImplementation(() => Promise.resolve({ status: 200, data: { id: 99, network: "ethereum_ropsten", txHash: "TXHASH" } }))
+    axios.put.mockImplementation(() => Promise.resolve({ status: 200, data: { id: 99, network: "ethereum_sepolia", txHash: "TXHASH" } }))
 
     const res = await hwUtils.waitForNewTransaction(envs, hwRedis)
 

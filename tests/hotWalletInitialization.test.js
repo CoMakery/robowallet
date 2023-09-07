@@ -15,7 +15,7 @@ describe("Hot Wallet initialization suite", () => {
   const algoEnvs = envs
   algoEnvs.blockchainNetwork = "algorand_test"
   const ethEnvs = envs
-  ethEnvs.blockchainNetwork = "ethereum_ropsten"
+  ethEnvs.blockchainNetwork = "ethereum_sepolia"
 
   const redisClient = redis.createClient()
   const hwRedis = new hwUtils.HotWalletRedis(envs, redisClient)
@@ -30,7 +30,7 @@ describe("Hot Wallet initialization suite", () => {
     privateKeyEncrypted: ""
   }
   const algorandHW = new hwUtils.HotWallet("algorand_test", "AV52YP3JEHUYVCNDX7RLF3ATQV35UZXOLAZJW5A6ITPJGQY7RPPKRRMHNY", algorandWalletKeys)
-  const ethHW = new hwUtils.HotWallet("ethereum_ropsten", "0xdc5B966F639a2FDC78F0808E8D17087Ea835f13D", ethWalletKeys)
+  const ethHW = new hwUtils.HotWallet("ethereum_sepolia", "0xdc5B966F639a2FDC78F0808E8D17087Ea835f13D", ethWalletKeys)
 
   beforeEach(async () => {
     await hwRedis.deleteCurrentKey()
