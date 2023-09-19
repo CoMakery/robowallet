@@ -8,7 +8,6 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      // infuraProjectId: "infura_project_id",  // not required for algorand
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -26,11 +25,11 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       // purestakeApi: "purestake_api_key", // not required for ethereum
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       // optInApp: 13997710, // not required for ethereum
-      blockchainNetwork: 'ethereum_ropsten',
+      blockchainNetwork: 'ethereum_sepolia',
       maxAmountForTransfer: 100000000, // optional
       ethereumTokenSymbol: "XYZ2",
       ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
@@ -44,7 +43,6 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       // purestakeApi: "purestake_api_key", // not required for solana
-      // infuraProjectId: "infura_project_id", // not required for solana
       alchemyApiKey: "alchemy_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
@@ -152,11 +150,11 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: null,
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
-      blockchainNetwork: 'ethereum_ropsten',
+      blockchainNetwork: 'ethereum_sepolia',
       maxAmountForTransfer: 100000000,
       ethereumTokenSymbol: "XYZ2",
       ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
@@ -214,11 +212,11 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: null,
-      blockchainNetwork: 'ethereum_ropsten',
+      blockchainNetwork: 'ethereum_sepolia',
       maxAmountForTransfer: 100000000,
       ethereumTokenSymbol: "XYZ2",
       ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
@@ -233,7 +231,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -266,7 +264,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -283,10 +281,10 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
-      blockchainNetwork: 'ethereum_ropsten',
+      blockchainNetwork: 'ethereum_sepolia',
       maxAmountForTransfer: 100000000,
       ethereumTokenSymbol: null,
       ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
@@ -300,7 +298,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -317,10 +315,10 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
-      blockchainNetwork: 'ethereum_ropsten',
+      blockchainNetwork: 'ethereum_sepolia',
       maxAmountForTransfer: 100000000,
       ethereumTokenSymbol: "XYZ2",
       ethereumContractAddress: null
@@ -333,10 +331,10 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      infuraProjectId: "infura_project_id",
+      alchemyApiKey: "alchemy_api_key",
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
-      blockchainNetwork: 'ethereum_ropsten',
+      blockchainNetwork: 'ethereum_sepolia',
       maxAmountForTransfer: 100000000,
       ethereumTokenSymbol: "ETH",
       ethereumTokenType: 'eth',
@@ -345,13 +343,13 @@ describe("Check that all variables are set test suite", () => {
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(true)
   })
 
-  test('infuraProjectId is null for algorand', async () => {
+  test('alchemyApiKey is null for algorand', async () => {
     const envs = {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      infuraProjectId: null,
+      alchemyApiKey: null,
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -363,15 +361,15 @@ describe("Check that all variables are set test suite", () => {
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(true)
   })
 
-  test('infuraProjectId is null for ethereum', async () => {
+  test('alchemyApiKey is null for ethereum', async () => {
     const envs = {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      infuraProjectId: null,
+      alchemyApiKey: null,
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
-      blockchainNetwork: 'ethereum_ropsten',
+      blockchainNetwork: 'ethereum_sepolia',
       maxAmountForTransfer: 100000000,
       ethereumTokenSymbol: "XYZ2",
       ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"

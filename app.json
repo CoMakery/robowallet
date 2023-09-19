@@ -59,16 +59,12 @@
       "value": "5"
     },
     "BLOCKCHAIN_NETWORK": {
-      "description": "Which network should we use for the hot wallet: algorand, algorand_test, algorand_beta, ethereum, ethereum_ropsten, ethereum_rinkeby",
+      "description": "Which network should we use for the hot wallet: algorand, algorand_test, algorand_beta, ethereum, ethereum_goerli, ethereum_sepolia",
       "required": true,
       "value": "ethereum"
     },
     "MAX_AMOUNT_FOR_TRANSFER": {
       "description": "Maximum amount of tokens to send in base units. Unlimited by default",
-      "required": false
-    },
-    "INFURA_PROJECT_ID": {
-      "description": "Project id generated on Infura. Required to use with ethereum blockchain.",
       "required": false
     },
     "ETHEREUM_TOKEN_TYPE": {
@@ -98,7 +94,7 @@
       "value": "4"
     },
     "ALCHEMY_API_KEY": {
-      "description": "API key for Alchemy. Required to use with Solana blockchain.",
+      "description": "API key for Alchemy. Required to use with Solana and Ethereum blockchain.",
       "required": false
     },
     "OPT_IN_APP": {

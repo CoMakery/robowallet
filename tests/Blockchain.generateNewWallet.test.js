@@ -19,8 +19,8 @@ describe("Blockchain generate new wallet test suite", () => {
 
   test('return correct generated keys for ethereum ', async () => {
     const ethBlockchain = new hwUtils.EthereumBlockchain({
-      infuraProjectId: "39f6ad316c5a4b87a0f90956333c3666",
-      blockchainNetwork: 'ethereum_ropsten'
+      alchemyApiKey: "alchemy_api_key",
+      blockchainNetwork: 'ethereum_sepolia'
     })
     const createAccount = {
       address: "0xdc5B966F639a2FDC78F0808E8D17087Ea835f13D",

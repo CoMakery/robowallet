@@ -21,7 +21,7 @@ const blockchainTransaction = {
   amount: 5,
   nonce: null,
   contractAddress: '0xE322488096C36edccE397D179E7b1217353884BB',
-  network: 'ethereum_rinkeby',
+  network: 'ethereum_sepolia',
   txHash: null,
   txRaw: JSON.stringify(txRaw),
   status: 'created',
