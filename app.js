@@ -7,7 +7,7 @@ const envs = {
   projectApiKey: process.env.PROJECT_API_KEY,
   comakeryServerUrl: process.env.COMAKERY_SERVER_URL,
   purestakeApi: process.env.PURESTAKE_API,
-  alchemyApiKey: process.env.ALCHEMY_API_KEY,
+  rpcUrl: process.env.RPC_URL,
   redisUrl: process.env.REDIS_URL,
   emptyQueueDelay: parseInt(process.env.EMPTY_QUEUE_DELAY),
   betweenTransactionDelay: parseInt(process.env.BETWEEN_TRANSACTION_DELAY),

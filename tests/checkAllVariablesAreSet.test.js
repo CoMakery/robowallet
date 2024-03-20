@@ -25,7 +25,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       // purestakeApi: "purestake_api_key", // not required for ethereum
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       // optInApp: 13997710, // not required for ethereum
@@ -43,7 +43,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       // purestakeApi: "purestake_api_key", // not required for solana
-      alchemyApiKey: "alchemy_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       // optInApp: 13997710, // not required for ethereum
@@ -150,7 +150,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: null,
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -212,7 +212,7 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: null,
@@ -231,7 +231,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -264,7 +264,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -281,7 +281,7 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       blockchainNetwork: 'ethereum_sepolia',
@@ -298,7 +298,7 @@ describe("Check that all variables are set test suite", () => {
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -315,7 +315,7 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       blockchainNetwork: 'ethereum_sepolia',
@@ -331,7 +331,7 @@ describe("Check that all variables are set test suite", () => {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       blockchainNetwork: 'ethereum_sepolia',
@@ -343,13 +343,13 @@ describe("Check that all variables are set test suite", () => {
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(true)
   })
 
-  test('alchemyApiKey is null for algorand', async () => {
+  test('rpcUrl is null for algorand', async () => {
     const envs = {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
       purestakeApi: "purestake_api_key",
-      alchemyApiKey: null,
+      rpcUrl: null,
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       optInApp: 13997710,
@@ -361,12 +361,12 @@ describe("Check that all variables are set test suite", () => {
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(true)
   })
 
-  test('alchemyApiKey is null for ethereum', async () => {
+  test('rpcUrl is null for ethereum', async () => {
     const envs = {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      alchemyApiKey: null,
+      rpcUrl: null,
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       blockchainNetwork: 'ethereum_sepolia',
@@ -377,12 +377,12 @@ describe("Check that all variables are set test suite", () => {
     expect(hwUtils.checkAllVariablesAreSet(envs)).toBe(false)
   })
 
-  test('alchemyApiKey is null for solana', async () => {
+  test('rpcUrl is null for solana', async () => {
     const envs = {
       projectId: "1",
       projectApiKey: "project_api_key",
       comakeryServerUrl: "http://cmk.server",
-      alchemyApiKey: null,
+      rpcUrl: null,
       redisUrl: "redis://localhost:6379/0",
       emptyQueueDelay: 30,
       blockchainNetwork: 'solana',

@@ -7,7 +7,7 @@ describe("EthereumBlockchain.disableWallet", () => {
   const ethContractAddress = "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
   const transactionHash = "0xb5c8bd9430b6cc87a0e2fe110ece6bf527fa4f170a4bc8cd032f768fc5219838"
   const ethBlockchain = new EthereumBlockchain({
-    alchemyApiKey: "alchemy_api_key",
+    rpcUrl: 'rpc_url',
     blockchainNetwork: 'ethereum_sepolia',
     ethereumContractAddress: ethContractAddress
   })

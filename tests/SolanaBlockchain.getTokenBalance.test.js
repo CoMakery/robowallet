@@ -2,7 +2,7 @@ const SolanaBlockchain = require('../lib/blockchains/SolanaBlockchain').SolanaBl
 const BigNumber = require('bignumber.js')
 
 const solanaBlockchain = new SolanaBlockchain({
-  alchemyApiKey: "alchemy_api_key",
+  rpcUrl: 'rpc_url',
   blockchainNetwork: 'solana_devnet'
 })
 

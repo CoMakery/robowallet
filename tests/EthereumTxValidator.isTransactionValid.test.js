@@ -6,7 +6,7 @@ const blockchainTransaction = require('./fixtures/ethereumBlockchainTransaction'
 describe("EthereumBlockchain.isTransactionValid", () => {
   const hwAddress = '0x15b4eda54e7aa56e4ca4fe6c19f7bf9d82eca2fc'
   const ethBlockchain = new EthereumBlockchain({
-    alchemyApiKey: "alchemy_api_key",
+    rpcUrl: 'rpc_url',
     blockchainNetwork: 'ethereum_sepolia',
     ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
   })

@@ -5,7 +5,7 @@ const BigNumber = require('bignumber.js')
 describe("EthereumBlockchain check for token balance", () => {
   test('return balance as an object with balances (in base units and in tokens)', async () => {
     const ethBlockchain = new EthereumBlockchain({
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       blockchainNetwork: 'ethereum_sepolia',
       ethereumContractAddress: "0x1d1592c28fff3d3e71b1d29e31147846026a0a37"
     })
@@ -26,7 +26,7 @@ describe("EthereumBlockchain check for token balance", () => {
 
   test('return zero for unknown contract', async () => {
     const ethBlockchain = new EthereumBlockchain({
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       blockchainNetwork: 'ethereum_sepolia',
       ethereumContractAddress: "0xB5e3062f536cE503B27CB366529613aa3bE0408e"
     })
@@ -48,7 +48,7 @@ describe("EthereumBlockchain check for token balance", () => {
 
   test('get ethereumApprovalContractAddress balance for Lockup contract', async () => {
     const ethBlockchain = new EthereumBlockchain({
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: 'rpc_url',
       blockchainNetwork: 'ethereum_sepolia',
       ethereumTokenType: "token_release_schedule",
       ethereumContractAddress: "0x9608848fa0063063d2bb401e8b5effcb8152ec65",

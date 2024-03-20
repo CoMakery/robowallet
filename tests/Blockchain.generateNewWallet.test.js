@@ -19,7 +19,7 @@ describe("Blockchain generate new wallet test suite", () => {
 
   test('return correct generated keys for ethereum ', async () => {
     const ethBlockchain = new hwUtils.EthereumBlockchain({
-      alchemyApiKey: "alchemy_api_key",
+      rpcUrl: "rpc_url",
       blockchainNetwork: 'ethereum_sepolia'
     })
     const createAccount = {
@@ -41,7 +41,7 @@ describe("Blockchain generate new wallet test suite", () => {
 
 test('return correct generated keys for solana ', async () => {
   const solanaBlockchain = new hwUtils.Blockchain({
-    alchemyApiKey: 'alchemy_api',
+    rpcUrl: 'rpc_url',
     blockchainNetwork: 'solana_devnet'
   })
 

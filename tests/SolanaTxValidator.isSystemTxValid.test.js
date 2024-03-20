@@ -5,7 +5,7 @@ const { SolanaTxValidator } = require('../lib/TxValidator');
 describe("solanaTxValidator.isSystemTxValid", () => {
   const hwAddress = 'CQSE22PAUYdorqCLqAguCkjAvhSnCB2zXyNPTinWNG58'
   const solanaBlockchain = new SolanaBlockchain({
-    alchemyApiKey: "alchemy_project_id",
+    rpcUrl: "rpc_url",
     blockchainNetwork: 'solana_devnet',
   })
 
