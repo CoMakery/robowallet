@@ -8,7 +8,7 @@ describe("SolanaBlockchain.disableWallet", () => {
   const tokenMintAddress = '91enn7UUM3rXqqMAmYgYRNuVQBRgTumTvV7kMCVyz5g'
   const txHash = '2xu6HaySKadbeMozXnh69bP976uX78fhhw4LoWcd8U7FxKD99onMJUVyYzMGyAPSm61MxxnEC9z5rKtvVsVm9YpC'
   const solanaBlockchain = new SolanaBlockchain({
-    alchemyApiKey: "alchemy_project_id",
+    rpcUrl: "rpc_url",
     blockchainNetwork: 'solana_devnet',
   })
   let sendTransactionSpy = jest.spyOn(solanaBlockchain, "sendTransaction")

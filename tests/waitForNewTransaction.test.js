@@ -8,7 +8,7 @@ describe("For Ethereum blockchain", () => {
     projectId: "1",
     projectApiKey: "project_api_key",
     comakeryServerUrl: null,
-    alchemyApiKey: "alchemy_api_key",
+    rpcUrl: 'rpc_url',
     redisUrl: "redis://localhost:6379/0",
     blockchainNetwork: "ethereum_sepolia"
   }

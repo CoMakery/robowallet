@@ -93,8 +93,8 @@
       "required": true,
       "value": "4"
     },
-    "ALCHEMY_API_KEY": {
-      "description": "API key for Alchemy. Required to use with Solana and Ethereum blockchain.",
+    "RPC_URL": {
+      "description": "RPC url without specified protocol (http/https). Required to use with Solana and Ethereum blockchain.",
       "required": false
     },
     "OPT_IN_APP": {
